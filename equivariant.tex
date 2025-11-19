@@ -114,23 +114,16 @@ As mentioned previously, given a quiver $Q$ we will often fix a weight $\theta \
     Let $P$ be a subquiver of $Q$ such that $P_0 = Q_0$, and suppose $\theta$ is equivariant under $\aut(Q)$. Given a flow $x \in \hom(Q_1, \R)$ and automorphism $g \in \aut(Q)$, $I_Q(x) = \theta$ and $x(\alpha) = 0$ for all $\alpha \not\in P_1$ if and only if $I_Q(g \cdot x) = \theta$ and $(g \cdot x)(\alpha) = 0$ for all $\alpha \not\in g \cdot P_1$.
 \end{proposition}
 \begin{proof}
-    Suppose $x \in \hom(Q_1, \R)$ satisfies $I_Q(x) = \theta$ and $x(\alpha) = 0$ for all $\alpha \not\in P_1$. Since $g$ is an automorphism, $\alpha \not\in g \cdot P_1$ if and only if $g^{-1} \!\cdot \alpha \not\in P_1$. Thus $(g \cdot x)(\alpha) = x(g \cdot \alpha)$ vanishes precisely when $\alpha \not\in g \cdot P_1$.
-
-    For the weight, fix $v \in Q_0$ and reindex by setting $\beta = g \cdot \alpha$. The condition $\alpha^+ = v$ becomes $\beta^+ = g \cdot v$, and likewise $\alpha^- = v$ becomes $\beta^- = g \cdot v$. Hence
     Suppose $x \in \hom(Q_1, \R)$ satisfies $I_Q(x) = \theta$ and $x(\alpha) = 0$ if $\alpha \not\in P_1$. Note that $g$ an automorphism means $\alpha \not\in P_1$ if and only if $g \cdot \alpha \not\in g \cdot P_1$. Then, by definition of $g \cdot x$, $(g \cdot x)(\alpha) = 0$ exactly when $x(g \cdot \alpha) = 0$, which is exactly when $\alpha \not\in P_1$. To show $I_Q(g\cdot x) = \theta$, note for any vertex $v \in Q_0$,
     \begin{align*}
-    I_Q(g \cdot x)(v)
-        &= \sum_{\alpha^+ = v} (g \cdot x)(\alpha) - \sum_{\alpha^- = v} (g \cdot x)(\alpha) \\
-        &= \sum_{\beta^+ = g \cdot v} x(\beta) - \sum_{\beta^- = g \cdot v} x(\beta) \\
-        &= I_Q(x)(g \cdot v) = \theta(g \cdot v) = \theta(v),
+    I_Q(g\cdot x)(v) &= \sum_{\alpha^+ = v}(g \cdot x)(\alpha) - \sum_{\alpha^- = v}(g \cdot x)(\alpha) \\
+    &= \sum_{g\cdot \alpha^+ = g\cdot v}x(g\cdot \alpha) - \sum_{g\cdot \alpha^- = g\cdot v}x(g\cdot \alpha) \\
+    &= \theta(g\cdot v)
     \end{align*}
-    using equivariance of $\theta$ in the final equality. This proves the forward implication.
-
-    For the reverse implication, note that $g \cdot P$ is a subquiver of $Q$ with vertex set $Q_0$. If $g \cdot x$ satisfies $I_Q(g \cdot x) = \theta$ and $(g \cdot x)(\alpha) = 0$ for $\alpha \notin g \cdot P_1$, then applying the forward direction to the flow $g \cdot x$, subquiver $g \cdot P$, and automorphism $g^{-1}$ shows that $I_Q(x) = \theta$ and $x(\alpha) = 0$ for all $\alpha \notin P_1$.
+    Equivariance of $\theta$ means $\theta(g \cdot v) = \theta(v)$, so $I_Q(g \cdot x) = \theta$. To show the reverse direction, simply apply the forward direction proof to the subquiver $g \cdot P$ of $Q$ with flow $g \cdot x$ and automorphism $g^{-1}$ in $\aut(Q)$.
 \end{proof}
 
 \begin{remark}\label{codex_edit}
-    The proof above hinges on two simple reindexing observations: $(g \cdot x)(\alpha)$ vanishes exactly when $g^{-1} \!\cdot \alpha$ lies outside $P_1$, and the change of variables $\beta = g \cdot \alpha$ converts the incidence sums at $v$ to the sums at $g \cdot v$. These steps, together with the equivariance of $\theta$, guarantee that both the flow equation and the support condition are preserved under the action of $\aut(Q)$.
     We highlight several issues in the proof of Proposition~\ref{welldefined-action} that need correction:
     \begin{itemize}
         \item The vanishing set of $g\cdot x$ is misidentified: from $(g\cdot x)(\alpha)=x(g\cdot\alpha)$ we only get $(g\cdot x)(\alpha)=0$ when $g\cdot\alpha\notin P_1$, i.e. when $\alpha\notin g^{-1}\!\cdot P_1$, not when $\alpha\notin P_1$.

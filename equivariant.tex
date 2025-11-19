@@ -114,7 +114,7 @@ As mentioned previously, given a quiver $Q$ we will often fix a weight $\theta \
     Let $P$ be a subquiver of $Q$ such that $P_0 = Q_0$, and suppose $\theta$ is equivariant under $\aut(Q)$. Given a flow $x \in \hom(Q_1, \R)$ and automorphism $g \in \aut(Q)$, $I_Q(x) = \theta$ and $x(\alpha) = 0$ for all $\alpha \not\in P_1$ if and only if $I_Q(g \cdot x) = \theta$ and $(g \cdot x)(\alpha) = 0$ for all $\alpha \not\in g \cdot P_1$.
 \end{proposition}
 \begin{proof}
-    Suppose $x \in \hom(Q_1, \R)$ satisfies $I_Q(x) = \theta$ and $x(\alpha) = 0$ if $\alpha \not\in P_1$. Note that $g$ an automorphism means $\alpha \not\in P_1$ if and only if $g \cdot \alpha \not\in g \cdot P_1$. Then, by definition of $g \cdot x$, $(g \cdot x)(\alpha) = 0$ exactly when $x(g \cdot \alpha) = 0$, which is exactly when $\alpha \not\in P_1$. To show $I_Q(g\cdot x) = \theta$, note for any vertex $v \in Q_0$, 
+    Suppose $x \in \hom(Q_1, \R)$ satisfies $I_Q(x) = \theta$ and $x(\alpha) = 0$ if $\alpha \not\in P_1$. Note that $g$ an automorphism means $\alpha \not\in P_1$ if and only if $g \cdot \alpha \not\in g \cdot P_1$. Then, by definition of $g \cdot x$, $(g \cdot x)(\alpha) = 0$ exactly when $x(g \cdot \alpha) = 0$, which is exactly when $\alpha \not\in P_1$. To show $I_Q(g\cdot x) = \theta$, note for any vertex $v \in Q_0$,
     \begin{align*}
     I_Q(g\cdot x)(v) &= \sum_{\alpha^+ = v}(g \cdot x)(\alpha) - \sum_{\alpha^- = v}(g \cdot x)(\alpha) \\
     &= \sum_{g\cdot \alpha^+ = g\cdot v}x(g\cdot \alpha) - \sum_{g\cdot \alpha^- = g\cdot v}x(g\cdot \alpha) \\
@@ -122,6 +122,16 @@ As mentioned previously, given a quiver $Q$ we will often fix a weight $\theta \
     \end{align*}
     Equivariance of $\theta$ means $\theta(g \cdot v) = \theta(v)$, so $I_Q(g \cdot x) = \theta$. To show the reverse direction, simply apply the forward direction proof to the subquiver $g \cdot P$ of $Q$ with flow $g \cdot x$ and automorphism $g^{-1}$ in $\aut(Q)$.
 \end{proof}
+
+\begin{remark}\label{codex_edit}
+    We highlight several issues in the proof of Proposition~\ref{welldefined-action} that need correction:
+    \begin{itemize}
+        \item The vanishing set of $g\cdot x$ is misidentified: from $(g\cdot x)(\alpha)=x(g\cdot\alpha)$ we only get $(g\cdot x)(\alpha)=0$ when $g\cdot\alpha\notin P_1$, i.e. when $\alpha\notin g^{-1}\!\cdot P_1$, not when $\alpha\notin P_1$.
+        \item The computation of $I_Q(g\cdot x)(v)$ reindexes the sums incorrectly. The condition $g\cdot \alpha^+=g\cdot v$ is equivalent to $\alpha^+=g^{-1}\!\cdot v$, so the displayed expression evaluates to $\theta(g^{-1}\!\cdot v)$ rather than $\theta(g\cdot v)$; an explicit change of variables is needed before invoking equivariance.
+        \item The argument for the reverse implication is only sketched; it should explicitly state that $g\cdot P$ is a subquiver with vertex set $Q_0$ and show how applying the forward implication with $g^{-1}$ yields the result.
+        \item For clarity, the proof should emphasize that the equivariance condition on $\theta$ is essential when translating $I_Q(x)=\theta$ to $I_Q(g\cdot x)=\theta$, and should check that the definition $g\cdot x:\hom(Q_1,\R)\to\hom(Q_1,\R)$ aligns with the earlier mention of $\hom(Q_1,\Z)$.
+    \end{itemize}
+\end{remark}
 
 
 Proposition \ref{welldefined-action} is very important as it says our definition of $g \cdot x$ agrees with our definition of its action on $Q$ and, perhaps more importantly, that $\Delta(g \cdot P, \theta) = g \cdot \Delta(P, \theta)$ when considered as subsets of the larger space $\R^{Q_1}$. This is easily seen to be true as the condition $x(\alpha) \geq 0$ for all $\alpha \in P_1$ holds if and only if $(g\cdot x)(\alpha) \geq 0$ for all $\alpha \in g \cdot P_1$. 

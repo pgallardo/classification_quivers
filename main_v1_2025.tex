@@ -1,0 +1,215 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[all]{xy}
+\usepackage{amsmath}
+\usepackage{amsfonts, mathrsfs}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{enumerate,enumitem}
+\usepackage{xcolor}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{caption}
+\usepackage{csquotes}
+
+
+\usepackage{hyperref}  
+%\usepackage[notref,notcite]{showkeys}
+\usepackage{tikz} 
+\usepackage{tikz-cd}
+\usepackage{comment}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.markings}
+\usepackage{quiver}
+\usepackage{changepage}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\C}[1]{{\color{violet} #1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\DeclareMathOperator{\inc}{inc}
+\DeclareMathOperator{\wt}{Wt}
+\DeclareMathOperator{\Rep}{Rep}
+\DeclareMathOperator{\Cir}{Cir}
+\DeclareMathOperator{\conv}{conv}
+
+\title{
+Three dimensional toric varieties from quiver represenations
+}
+
+
+\date{}
+
+
+\begin{document}
+\begin{abstract}
+For a given dimension, there are only a finite number of toric varieties that emerge as moduli spaces of quiver representations with dimension vectors all equal to one. They are known as toric quiver varieties. In this work, we classify all the three-dimensional toric quiver varieties. Specifically, we demonstrate that there are five isomorphism classes among them, and that a single variation of GIT with 18 chambers is responsible for generating all of them. Additionally, we explore and describe the birational transformations between these varieties from both combinatorial and moduli theory perspectives.
+\end{abstract}
+\maketitle
+
+\section{Updata Jan 15, 2025}
+
+Questions that we are interested on
+\begin{itemize}
+    \item To generalize $\Gamma(Q)$ to the three dimensional polytope. So $\Gamma(Q) $ equal to $\Gamma(R)$ implies that flow polytopes with canonical weight are integrally affine isomorphic --or maybe affine integral isomorphic. 
+    \item To compute, list and describe all the three-dimensional flow polytopes along with their invariants such as volume, $C(Q)$ and so forth
+    \item[1.] To prove that adding a sink changes the polytope by cutting a corner.  
+    \item To clean the writing of the three-dimensional case.
+    \item Tightening for the three-dimensional case. 
+\end{itemize}
+
+
+\section{Introduction}
+\noindent Quivers are assumed to be acyclic, finite, and connected.
+
+\begin{definition}
+For any $d > 2$, let $Q$ be the quiver with only two vertices, both of which are degree $d+1$ (shown on the left side of Figure \ref{QandQtilde}). For $0 \leq m \leq d + 1$, define $Q(m)$ as the new quiver resulting from placing a sink into $m$ distinct edges of $Q$.
+\end{definition} 
+
+\begin{example}
+    Shown in Figure \ref{QandQtilde} below to the left is $Q(0)$, which is equal to $Q$, and on the right $Q(1)$. For simplicity, we will always split the bottom-most unsplit edge, that is, we split $\alpha_{d + 2 - m}$ for $Q(m)$, $m > 0$. We note that the choice of which edge is split has no effect on the subsequent results as the edges can always be relabeled so the above convention is followed.
+\end{example}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{Resources/QandQtildeDiagrams.png}
+    \caption{Left: $Q = Q(0)$. Right: $Q(1)$}
+    \label{QandQtilde}
+\end{figure}
+
+\begin{definition}
+    $C(Q)$
+\end{definition}
+    
+\begin{definition}
+    Given a quiver $Q$, the canonical weight $\delta_Q$ is defined as the image under $I_Q$ of placing a flow of 1 on all edges of $Q$, that is, $\delta_Q := I_Q(\mathbf{1})$ where $\mathbf{1} \in \R^{Q_1}$.
+\end{definition}
+
+\begin{proposition}
+    $\Delta(Q(0), \delta_{Q(0)})$ is the $d$-simplex.
+\end{proposition}
+
+\begin{proof}
+    Note all spanning trees of $Q(0)$ are of the form $T_i := (Q(0)_0, \{\alpha_i\})$ for $1 \leq i \leq d + 1$ and that $\delta_{Q(0)} = (-(d + 1), d + 1)$. For any $T_i$,  the unique flow supported by the tree is $\varepsilon^{T_i} := (d + 1)e_i \in \R^{d+1}$. Then,
+    \[
+    \Delta(Q(0), \delta_{Q(0)}) = \conv\{\varepsilon^{T_i} \:|\: i \leq 1 \leq d + 1\}
+    \]
+    \noindent which is the $d$-simplex.
+\end{proof}
+\begin{comment}
+    Let $\varepsilon \in \R^{d+1}$ such that $I_{\hat{Q}}(\varepsilon) = \theta$. Then, for some $x \in \R^{d+1}$, $\varepsilon = x + \varepsilon^T_\theta$. It follows that 
+    \[
+    \theta = I_{\hat{Q}}(\varepsilon) = I_{\hat{Q}}(x + \varepsilon^T_\theta) = I_{\hat{Q}}(x) + I_{\hat{Q}}(\varepsilon^T_\theta) = I_{\hat{Q}}(x) + \theta
+    \]
+    Subtracting $\theta$ from both sides yields that $x \in \ker I_{\hat{Q}}$. Considering the individual flow equations of $I_{\hat{Q}}(x) = 0$ yield that $0 = \sum^{d+1}_{i=1}x_i$. Noting that $e_i \cdot \varepsilon \geq 0$ for $1 \leq i \leq d + 1$, we can then define
+    \[
+    \Bar{\Delta}(\hat{Q}, \theta) := \{x \in \ker I_{\hat{Q}} \:|\: e_i \cdot (x + \varepsilon^T_\theta) \geq 0\} = \left\{x \in \ker I_{\hat{Q}} \:|\: x_1, \ldots, x_d \geq 0, \sum^d_{i=1}x_i \leq -\theta_1 \right\}
+    \]
+    and note $\Bar{\Delta}(\hat{Q}, \theta) \cong \Delta(\hat{Q}, \theta)$ as $\Bar{\Delta}(\hat{Q}, \theta)$ was constructed from a translation of $\Delta(\hat{Q}, \theta)$. Finally, we let $\theta = \delta_{\hat{Q}} = (-(d+1), d+1)$ to determine that
+    \[
+    \Bar{\Delta}(\hat{Q}, \theta) = \left\{x \in \ker I_{\hat{Q}} \:|\: x_1, \ldots, x_d \geq 0, \sum^d_{i=1}x_i \leq d + 1 \right\}
+    \]
+    It is then clear that $\Bar{\Delta}(\hat{Q}, \theta)$ is the d-simplex, and so $\Delta(\hat{Q}, \delta_{\hat{Q}})$ os the d-simplex --as well.
+\end{comment}
+
+\begin{definition}
+    Given a quiver $Q$, a wall $W$ of $C(Q)$ is...
+\end{definition}
+
+\begin{proposition} \label{wall-existence}
+    For $0 \leq m \leq d$, there exists a wall $W$ of $C(Q(m + 1))$ such that for some weight $w_0 \in W$, 
+    \[
+        \Delta(Q(m), \delta_{Q(m)}) \cong \Delta(Q(m+1), w_0)
+    \]
+\end{proposition}
+
+\begin{proof}
+    First, we construct $C(Q(m + 1))$. We let $v_1$ be the vertex with out-degree of $d + 1$ and $v_2$ the vertex with in-degree of $d + 1$. Note the primitive arrows of $Q(m + 1)$ are the edges exiting $v_2$ into the sinks we added and $\alpha_1$. Thus, $Q(m + 1)$ has $m + 2$ primitive arrows when $m \leq d - 1$ (if $m = d$, then all edges are primitive arrows).
+
+    Note $\dim C(Q(m + 1)) = \dim \R^{Q_0 - 1} = m + 2$ and is a cone whose generator rays are defined by $I_{Q(m + 1)}(e_j)$ where $e_j$ is the 
+\end{proof}
+
+\begin{proposition}
+    For $1 \leq m \leq d + 1$, there exist $d + 1$ $w_0$-semistable spanning trees of $Q(m)$. Moreover, the flows supported on them are all equal.
+\end{proposition}
+
+\begin{lemma}
+   Let $v_\varepsilon^\perp \in \R^{Q_0}$ be perpendicular to the wall $\:W$ from Proposition \ref{wall-existence}. For small enough $\varepsilon$, 
+    \[
+    \Delta(Q(m), \delta_{Q(m)}) \cong \Delta(Q(m+1), w_0 - v_\varepsilon^\perp)
+    \]
+\end{lemma}
+
+\begin{proposition}
+    There are $d$ $(w_0-v_\varepsilon^\perp)$-unstable trees and one $(w_0-v_\varepsilon^\perp)$-stable tree of $Q(m + 1)$.
+\end{proposition}
+
+\begin{proposition}
+    For small enough $\varepsilon$, there exist $d$ $(w_0 + v_\varepsilon^\perp)$-stable trees of $Q(m+1)$ that are also $w_0$-semistable.
+\end{proposition}
+
+\begin{lemma}
+    Let $T^1, T^2, \ldots, T^n$ be the $n$ $(w_0 + v_\varepsilon^\perp)$-stable trees of $Q(m+1)$ and $T^0$ the $(w_0 - v_\varepsilon^\perp)$-stable tree of $Q(m+1)$  that is also $w_0$-semistable. Then, for some $u \in \R^{d+2}$,
+    \[
+        \Delta(\widetilde{Q}, w_0) \cong \conv\{T^i \:|\: 0 \leq i \leq n\} + u
+    \]
+\end{lemma}
+
+\begin{definition}
+    From \hyperlink{https://www.csun.edu/~ctoth/Handbook/chap15.pdf}{this textbook}, define the $(d-1)$-dimensional simplex as
+    \[
+        \Delta_{d-1}' = \conv\{e_1, e_2, \ldots, e_d\}
+    \]
+\end{definition}
+
+\begin{proposition}
+    Denote the $d$ $(w_0 + v_\varepsilon^\perp)$-stable trees of $\widetilde{Q}$ that are also $w_0$-semistable as $S^1, S^2, \ldots, S^d$. Then, up to a coordinate change,
+    \[
+        \conv\{S^i \:|\: 1 \leq i \leq d\} = \Delta_{d-1}'
+    \]
+\end{proposition}
+
+\begin{lemma}
+    Let $X = \{T^i \:|\: 1 \leq i \leq n\}\cup\{S^i \:|\: 1 \leq i \leq d\}$. Then, 
+    \[
+        \Delta(\widetilde{Q}, w_0 + v_\varepsilon^\perp) \cong \conv\{X\}
+    \]
+\end{lemma}
+
+\begin{proposition}
+    There exists a $w_0$ and $v_\varepsilon^\perp$ such that $\delta_{\widetilde{Q}} = w_0 + v_\varepsilon^\perp$.
+\end{proposition}
+
+\begin{definition}
+    Let $R$ be a quiver. Let $Q'$ be a quiver constructed  by placing a sink in at most $d+1$ edges of $\hat{Q}$. If there exists a $Q'$ such that $\Delta(R, \delta_R) \cong \Delta(Q', \delta_{Q'})$, then we say that $\Gamma(R)$ is the number of sinks placed in $\hat{Q}$ to construct $Q'$.
+\end{definition}
+
+\begin{theorem}
+    $\Delta(\widetilde{Q}, \delta_{\widetilde{Q}})$ is affinely isomorphic to the $d$-simplex with $\Gamma(\widetilde{Q})$ vertices cut off.
+\end{theorem}
+
+Here, we note that the ``cutting off'' is special. If $\Gamma(Q) = 1$, then cutting off a vertex is as expected. For subsequent cuts, the section formed by the cut contains as many newly created vertices from previous cuts as possible while still maintaining the $(d-1)$-simplex shape.
+
+
+
+\newpage
+\bibliographystyle{alpha}
+\bibliography{bibliography.bib} 
+
+\end{document}

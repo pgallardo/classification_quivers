@@ -1,0 +1,500 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[all]{xy}
+\usepackage{amsmath}
+\usepackage{amsfonts, mathrsfs}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{enumerate,enaumitem}
+\usepackage{xcolor}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{caption}
+\usepackage{csquotes}
+\usepackage{setspace}
+
+\onehalfspacing
+
+\usepackage{hyperref}  
+%\usepackage[notref,notcite]{showkeys}
+\usepackage{tikz} 
+\usepackage{tikz-cd}
+\usepackage{comment}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.markings}
+\usepackage{quiver}
+\usepackage{changepage}
+
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\C}[1]{{\color{violet} #1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\rs}{\mkern-12mu}
+
+\DeclareMathOperator{\inc}{inc}
+\DeclareMathOperator{\aut}{Aut}
+\DeclareMathOperator{\wt}{Wt}
+\DeclareMathOperator{\Rep}{Rep}
+\DeclareMathOperator{\Cir}{Cir}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\aff}{aff}
+
+\renewcommand{\hom}{\Hom}
+
+\title{
+On Quivers and Polytopes with Weights Invariant Under Graph Automorphisms
+}
+\author{Patricio Gallardo}
+\address{Department of Mathematics, University of California, Riverside, Riverside, CA 92521, United States.}
+
+\author{Xavier Madrid}
+\address{Department of Mathematics, University of California, Riverside, Riverside, CA 92521, United States.}
+
+\date{09/05/2025}
+
+
+
+
+\begin{document}
+\begin{abstract}
+    We study flow polytopes that arise from quiver representations with dimension vector 1 and whose underlying directed graph has nontrivial automorphism group. In particular, for weights invariant under the action of the automorphism group, we show each automorphism of $Q$ induces a geometric automorphism of the flow polytope produced by the quiver-weight pair. We also show that both the invariant weight space and automorphism-invariant polytope of $Q$ are integral-affinely equivalent to the weight space and polytopes produced associated to the quotient quiver, respectively, and show other results regarding the invariant weight space analogous to those in the well-studied general case. Finally, we restrict our attention to the so-called canonical weight, a special automorphism-invariant weight, and examine when quivers with this weight are tight and when two quivers produce the same polytope.
+
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+\noindent The study of quiver representations with dimension vector all 1s and, upon fixing a weight, the flow polytopes they produce has been studied extensively in the past twenty years, with perhaps some of the most influential and notable works from Hille \cite{hille2003quivers}, Domokos and Joó \cite{domokos2016equations}, and Altmann and Straten \cite{Altmann2009}. In this study, we closely follow Hille's paper but restrict our attention to quivers with nontrivial automorphism group $\aut(Q)$, which naturally acts on the quiver by permutation of the vertices and edges. We reconstruct several of the results from Hille's paper but for automorphism-invariant weight spaces, and observe the action of the graph automorphisms on the flow polytope. Finally, we show in Theorem \ref{thm:quotient-graph-correspondence} that for appropriate choices of weights, the polytope of automorphism-invariant flows is integral-affinely equivalent to the full polytope produced by the quotient quiver constructed via the action of $\aut(Q)$. 
+
+Throughout the paper, we will prove statements for a subgroup $G \leq \aut(Q)$. To see the results of the action of $G$ on the associated flow polytopes, it is necessary to restrict the weights we consider to those that are $G$-invariant. This fact, which is the basis of this paper, is proven in Proposition \ref{quiver-action}, and was previously utilized in Example 1 in section 3 and Example 1 of section 6 in \cite{hille2003quivers}.  We expand on this notion and prove in general that action by $\aut(Q)$ induces an geometric automorphism, or an origin-fixing isometry, on the associated polytope, and show when the induced isometry is unique. Then, we examine the space of invariant weights $C_Q^G$, and prove analogous results regarding this cone as in \cite{hille2003quivers}. We then prove the Theorem \ref{thm:quotient-graph-correspondence} below, demonstrating that the $G$-invariant subset of the associated polytope is integral-affinely equivalent to the quiver realized from the quotient graph of $Q$. Finally, we examine conditions to tighten quivers with the canonical weight, the weight that is the image of a flow of all $1$'s, which can be used to determine when two quivers produce the same polytope with the canonical weight and, in conjuction with \ref{polytope-action}, show the minimal symmetry group of these polytopes.
+
+\begin{theorem} \label{thm:quotient-graph-correspondence}
+    Let $G \leq \aut(Q)$. If $\theta \in C_Q^G$, then $\Delta(Q, \theta)^G \cong \Delta(Q/G, \bar\pi_0(\theta))$. Moreover, $\bar\pi_0(C_Q^G) = C_{Q/G}$.
+\end{theorem}
+
+\section{Preliminaries}
+We will now briefly define the necessary objects used throughout this paper. A more in-depth introduction to the study of quivers and polytopes can be found in the three papers mentioned above, and especially Hille's. By polytope, we mean convex polytopes. Additional information regarding polytopes can be found in \cite{10.5555/285869}.
+
+A quiver $Q=(Q_0,Q_1)$ is a finite, directed multigraph with vertex set $Q_0$ and edge set $Q_1$. We assume throughout that $Q$ is connected and acyclic, that is, it has no directed cycles. For an edge $\alpha \in Q_1$ we denote its source and target by $\alpha^-$ and $\alpha^+$, respectively. A weight of $Q$ is a mapping $\theta \in \hom(Q_0, \Z)$. A flow on $Q$ is a mapping $x \in \hom(Q_1, \Z)$. The incidence map, or flow map, of $Q$ is
+\begin{align*}
+I_Q : &\hom(Q_1, \Z) \longrightarrow \hom(Q_0, \Z),\\
+&\theta(v) = \sum_{\alpha^+ \,=\,v} x(\alpha) - \sum_{\alpha^-\,=\,v} x(\alpha) \quad \quad (v \in Q_0),
+\end{align*}
+ and associates to a flow $x$ a weight
+ $\theta$. If we want to emphasize that we are mapping a flow $x$, we may write $I_Q(x)(v)$ instead of $\theta(v)$. We note that $\hom(Q_1, \Z) \cong \Z^{Q_1}$ as $\Z$-modules.
+
+For a fixed $\theta \in \hom(Q_0, \Z)$, the space of flows with input $\theta$ is the affine subspace $I_Q^{-1}(\theta)$.
+Then, the flow polytope produced by $Q$ with weight $\theta$ is defined as
+\[
+\Delta(Q, \theta) := I_Q^{-1}(\theta) \cap \hom(Q_1, \Z_{\geq 0}).
+\]
+It is a convex polytope whose faces correspond to certain spanning subquivers of $Q$. 
+
+Each polytope $\Delta$ has a geometric symmetry group, which we denote $\aut(\Delta)$. It consists of all the isometries of the ambient space that map the polytope onto itself. We call elements of this group a geometric automorphism, or automorphism for short if it is clear we are speaking of the polytope. The set of these isometries clearly form a group. 
+
+To identify two flow polytopes, we use throughout this paper the notion of integral-affine equivalence, as done in \cite{domokos2016equations} and \cite{bruns2000semigroup}.
+
+\begin{definition}
+    Two polytopes $\Delta_1$ and $\Delta_2$ are integral-affinely isomorphic if there exists an affine isomorphism $\varphi : \aff(\Delta_1) \longrightarrow \aff(\Delta_2)$ such that $\varphi$ restricts to a surjection on $\Delta_1$ to $\Delta_2$. If $\Delta_1$ is integral-affinely isomorphic to $\Delta_2$, then we write $\Delta_1 \cong \Delta_2$.
+\end{definition}
+
+While there are several isomorphisms one can choose between polytopes, this one is used in \cite{domokos2016equations} and we will take advantage of some results that were shown.
+
+We will now focus on the weight space. Associated to any spanning subquiver $P \subseteq Q$ is the so-called cone of weights $C_P \subset \hom(Q_0, \Z)$ which is the image of all flows $x \in \hom(Q_1, \Z)$ under $I_Q$ such that $x(\alpha) \geq 0$ for all $\alpha \in P_1$ and $x(\alpha) = 0$ for all $\alpha \not\in P_1$. If $P = Q$, we get that $C_Q = I_Q(\hom(Q_1, \Z_{\geq0}))$. By definition, $C_P$ is the set of weights $\theta \in \Hom(Q_0, \Z)$ such that the associated polytope $\Delta(P, \theta)$ is not empty. Recall for each spanning tree $T \subset Q$, $\Delta(T, \theta)$ is a singular point if it is nonempty, in which case it is a vertex of $\Delta(Q, \theta)$. Thus, upon varying $\theta$ between the inside and outside of $C_T$, the polytope $\Delta(Q, \theta)$ changes combinatorially. Hille thus calls the supporting hyperplanes of each $C_T$ walls of $C_Q$. When $\theta$ does not lie directly on any such wall of $C_Q$, the weight is called generic. For more information on the behavior of the walls and chambers, see \cite{hille2003quivers}.
+
+We conclude with some necessary graph theory. For a quiver $Q$, the underlying undirected graph is denoted $\Gamma_G$. We may suppress stating $\Gamma_Q$ outright if the quiver we are speaking of is clear. The first Betti number of a quiver $Q$ is defined as the first Betti number of $\Gamma_Q$, that is, $|Q_1| - |Q_0| + 1$. By saying an undirected cycle (resp. path) of a quiver $Q$,  we mean a cycle (resp. path) of $\Gamma_Q$. For a subgraph $H \subset \Gamma_Q$, the quiver realized by $H$ is the unique quiver defined by taking $H$ and imposing directions on the edges so it is a subquiver of $Q$. The $2$-core of an \textit{undirected} graph $\Gamma$ is the subgraph induced by the set of vertices included in any nontrivial cycle of $\Gamma$. The $2$-core of a quiver $Q$, denoted $Q_{\text{core}}$, is defined to be the $2$-core of $\Gamma_Q$. Given two subquivers (resp. subgraphs) $R, P$ of quiver (resp. graph) $Q$, the union is the subquiver (resp. subgraph) $R \cup P := (R_0 \cup P_0, R_1 \cup P_1)$ where $R_i$ and $P_i$ are considered subsets of $Q_i$, $i = 1, 2$. Similarly, $R \cap P := (R_0 \cap P_0, R_1 \cap P_1)$. If $H \subset G$ are graphs or quivers, the subtraction $G - H$ is the (possibly empty) subgraph of $G$ obtained by deleting all vertices of $H$ from $G$ as well as any edges incident to these deleted vertices. An undirected path decomposition of a graph $H$ is a collection of paths $p^1, \ldots, p^k$ such that $\cup_ip^i = H$ and for any $i \neq j$, $p^i_0 \cap p^j_0 = \{v\}$ for some vertex $v$ in $H$. An undirected path decomposition of a quiver $Q$ is an undirected path decomposition of $\Gamma_Q$.
+
+\section{Quivers with Invariant Weight}
+\noindent For a quiver $Q$ with underlying directed multigraph $\Gamma$, we define $\aut(Q) := \aut(\Gamma)$, that is, we are interested in the automorphisms of $Q$ preserving vertex adjacency, edge count, and edge direction. This means an automorphism $g \in \aut(Q)$ is a pair of bijections $(g_0 : Q_0 \to Q_0, \;g_1 : Q_1 \to Q_1)$ such that for any edge $\alpha \in Q_1$, $g_1(\alpha)^+ = g_0(\alpha^+)$ and $g_1(\alpha)^- = g_0(\alpha^-)$. As $\aut(Q)$ is a group, we can speak about the action of an automorphism $g \in \aut(Q)$ on $Q$ in the obvious way. Namely, for $g \in \aut(Q)$ we define $g \cdot Q : \aut(Q) \times Q_0 \sqcup Q_1 \longrightarrow Q_0 \sqcup Q_1$ by 
+\[
+g \cdot x = \begin{dcases}
+    g_0(x), &x \in Q_0 \\
+    g_1(x), &x \in Q_1
+\end{dcases}\;.
+\]
+For the rest of the paper, we will use $g \cdot v \;\;(v \in Q_0)$ and $g \cdot \alpha \;\; (\alpha \in Q_1)$ to mean $g_0(v)$ and $g_1(\alpha)$, respectively. When acting on subquivers $P \subseteq Q$, note our definition yields that $g \cdot P$ is exactly the image under $g$ of the vertices and edges of $P$, namely, $g \cdot P = (g \cdot P_0, g \cdot P_1)$. It is not difficult to see that since $g$ is an automorphism, $g \cdot P$ and $P$ are isomorphic as directed multigraphs.
+
+As mentioned previously, given a quiver $Q$ we will often fix a weight $\theta \in \hom(Q_0, \Z)$. Much of this paper relies on Proposition \ref{quiver-action}, which only holds if the fixed weight $\theta$ is invariant with respect to the action of the subgroup $G \leq \aut(Q)$ we are considering. That is, $\theta(g \cdot v) = \theta(v)$ for all $g \in G$. Thus, we henceforth require that $\theta$ is invariant with respect to the action of a subgroup $G \leq \aut(Q)$. We denote the space of weights invariant under the action of $G$ as $\hom(Q_0, \Z)^G$. 
+
+It will be useful for us to define the action of $\aut(Q)$ on the set of flows $\hom(Q_1, \Z)$, and thus the action of any subgroup of $\aut(Q)$ by restriction. Define 
+\begin{align*}
+g \cdot x :& \aut(Q) \times \hom(Q_1, \Z)\longrightarrow \hom(Q_1, \Z) \\
+&(g \cdot x)(\alpha) := x(g^{-1} \cdot \alpha) \qquad (\alpha \in Q_1)
+\end{align*}
+Fixing a standard $\Z$-basis of $\hom(Q_1, \Z)$ (given by $x(\alpha) = 1$ for all $\alpha \in Q_1)$, $g$ equivalently acts by permuting the $\Z$-basis vectors just as $g$ permutes the elements of $Q_1$. Viewing $\hom(Q_1, \Z) \cong \Z^{Q_1}$ as a Euclidean metric space, this transformation is an isometry of $\hom(Q_1, \Z)$, which we will denote $\psi_g$. Corollary $\ref{polytope-action}$ asserts that these induced isometries map $\Delta(Q, \theta)$ onto itself, meaning they are actually geometric automorphisms of $\Delta(Q, \theta)$. Thus, the action of $g$ on the flows $\hom(Q_1, \Z)$ we defined above restricts to an action on the polytope $\Delta(Q, \theta)$ itself. For proper subquivers $P \subsetneq Q$, note $\Delta(P, \theta)$ is a facet of $Q$. It can thus be easily seen that for $g \in \aut(Q)$, $g \cdot\Delta(P, \theta)$ maps $\Delta(P, \theta)$ onto a congruent (but possibly different) facet of $\Delta(Q, \theta)$.
+
+The above ideas were utilized in two examples in \cite{hille2003quivers}, and in the first part of this paper we will prove them in generality and discuss consequences. With these restrictions in place, the following proposition holds almost immediately.
+\begin{proposition} \label{quiver-action}
+    Let $P$ be a subquiver of $Q$ such that $P_0 = Q_0$, and suppose $\theta$ is invariant under $G \leq \aut(Q)$. Given a flow $x \in \hom(Q_1, \Z)$ and automorphism $g \in G$, $I_Q(x) = \theta$ and $x(\alpha) = 0$ for all $\alpha \not\in P_1$ if and only if $I_Q(g \cdot x) = \theta$ and $(g \cdot x)(\alpha) = 0$ for all $\alpha \not\in g \cdot P_1$.
+\end{proposition}
+
+\begin{proof}
+    Suppose $x \in \hom(Q_1, \Z)$ satisfies $I_Q(x) = \theta$ and $x(\alpha) = 0$ if $\alpha \not\in P_1$. To show $I_Q(g\cdot x) = \theta$, note for any vertex $v \in Q_0$,
+    \begin{align*}
+    I_Q(g\cdot x)(v) &= \sum_{\alpha^+ = v}(g \cdot x)(\alpha) - \sum_{\alpha^- = v}(g \cdot x)(\alpha) \\
+    &= \sum_{g^{-1}\cdot \alpha^+ = g^{-1}\cdot v}x(g^{-1}\cdot \alpha) - \sum_{g^{-1} \cdot \alpha^- = g^{-1}\cdot v}x(g^{-1}\cdot \alpha) \\
+    &= \theta(g^{-1}\cdot v) 
+    \end{align*}
+    By the invariance of $\theta$, $\theta(g^{-1} \cdot v) = \theta(v)$ for all $v$ and so $I_Q(g \cdot x) = \theta$ as desired. The reverse direction follows by starting with the subquiver $g \cdot P$ and applying the forward argument with automorphism $g^{-1}$.
+
+    For the second claim, $x(\alpha) = 0$ for all $\alpha \not\in P_1$ holds if and only if $(g\cdot x)(\alpha) = x(g^{-1} \cdot \alpha) = 0$ for all $g^{-1} \cdot \alpha \not\in P_1$, or equivalently, $\alpha \not\in g \cdot P_1$. The converse follows in the same way.
+\end{proof}
+
+\begin{corollary} \label{polytope-action}
+   Every automorphism $g \in \aut(Q)$ induces a geometric automorphism $\psi_g \in \aut(\Delta(Q, \theta))$.
+\end{corollary}
+
+\begin{proof}
+    The discussion at the start of this section explains the existence of the induced isometry $\psi_g : \hom(Q_1, \Z) \longrightarrow \hom(Q_1, \Z)$, the linear map defined by sending $x(\alpha) \mapsto (g\cdot x)(\alpha)$ for all $\alpha \in Q_1$. Proposition \ref{quiver-action} yields that $g \cdot I_Q^{-1}(\theta) = I^{-1}_Q(\theta)$, and noting further that $x(\alpha) \geq 0$ for all $\alpha \in Q_1$ holds if and only if $(g\cdot x)(\alpha) \geq 0$ for all $\alpha \in g \cdot Q_1$, we see that $\psi_g(\Delta(Q, \theta)) = g \cdot\Delta(Q, \theta) =  g \cdot (I_Q^{-1}(\theta)\cap\hom(Q_1, \Z_{\geq 0})) = \Delta(Q, \theta)$. Thus, $\psi_g$ is a geometric automorphism of $\Delta(Q, \theta)$.
+\end{proof}
+
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCIoUCwgXFx0aGV0YSkiXSxbMiwyLCJnIFxcY2RvdCBcXERlbHRhKFAsIFxcdGhldGEpIl0sWzIsMCwiXFxEZWx0YShQLCBcXHRoZXRhKSJdLFswLDIsIihnIFxcY2RvdCBQLCBcXHRoZXRhKSJdLFswLDJdLFsyLDEsImciLDJdLFswLDMsImciLDJdLFszLDFdXQ==
+% \[\begin{tikzcd} \label{flow-equivariant-diagram} 
+% 	{(P, \theta)} && {\Delta(P, \theta)  \subset \hom(Q_1, \Z)} \\
+% 	\\
+% 	{(g \cdot P, \theta)} && {g \cdot \Delta(P, \theta) \subset \hom(Q_1, \Z)}
+% 	\arrow[from=1-1, to=1-3]
+% 	\arrow["g"', from=1-1, to=3-1]
+% 	\arrow["g"', from=1-3, to=3-3]
+% 	\arrow[from=3-1, to=3-3]
+% \end{tikzcd}\]
+
+%\noindent and so the elements of $\aut(Q)$ act on the polytope associated to any subquiver of $Q$.
+
+\begin{proposition}
+     Let $G \leq \aut(Q)$ and $\theta$ be generic, that is, $\theta$ does not lie on any wall of $C_Q$. Then, the homomorphism $\Phi_\theta : G \to \aut(\Delta(Q, \theta))$ given by $g \mapsto \psi_g$ is injective if and only if $G$ acts faithfully on the edge set of $Q_{\text{core}}$. In particular, $\Phi_\theta$ is injective for any tight quiver with generic invariant weight $\theta$.
+\end{proposition}
+
+\begin{proof} 
+    Note $G$ acts faithfully on $Q_{\text{core}}$ exactly when $G$ acts faithfully on the set of spanning trees of $Q$. Since $\theta$ is generic, the set of spanning trees of $Q$ is in bijection with the set of vertices of $\Delta(Q, \theta)$ (see \cite{hille2003quivers}). We thus have that $G$ acts faithfully on the vertices of $\Delta(Q, \theta)$ exactly when $G$ acts faithfully on the set of spanning trees of $Q$. Acting faithfully on the set of vertices of the polytope is equivalent to $G$ acting faithfully on the polytope, which is also equivalent to $\Phi_\theta$ being injective. 
+
+    The final claim follows from the fact that any tight quiver $Q$ is its own $2$-core (see \cite{domokos2016equations}).
+\end{proof}
+
+\begin{example}
+    Fix $d \geq 2$, and let $Q$ be the quiver defined by $d+1$ edges between two vertices as shown in Figure \ref{d-quiv}. Note here that $\aut(Q) \cong S_3$ and $\Delta(Q, \delta_Q)$ is the $d$-simplex. Since clearly $(Q, \delta_Q)$ is tight and $\delta_Q$ is generic, $\Phi_{\delta_Q} : \aut(Q) \longrightarrow \aut(\Delta(Q, \delta_Q))$ is injective and, in fact, an isomorphism since the geometric symmetry group of the $d$-simplex is well-known to be $S_{d+1}$.
+\end{example}
+
+\begin{remark}
+    While genericity of $\theta$ and tightness of $Q$ is enough for $\Phi_\theta$ to be injective, it is not too difficult to generate examples of tight quivers and generic weight $\theta$ where $\Phi_\theta$ is not surjective. For such an example, see Section 6 in \cite{hille2003quivers}.
+\end{remark}
+
+\begin{figure} 
+    \centering
+    \includegraphics[width=0.4\linewidth]{Resources/d+1-quiv.png}
+    \caption{}
+    \label{d-quiv}
+\end{figure}
+ 
+We now wish to inspect the cone of weights equivariant under the action of any subgroup $G \leq \aut(Q)$, which we denote $C_Q^G$, and the relevant walls within this cone. It is not difficult to see our cone $C_Q^G$ is a slice of the cone $C_Q$, that is, 
+\begin{align*}
+C_Q^G &= C_Q \cap \{\theta \in \hom(Q_0, \Z) \:|\: \theta(v) = \theta(g \cdot v), \;\;g \in G, \;\;v \in Q_0\} \\
+&= C_Q \cap \hom(Q_0, \Z)^G.
+\end{align*}
+The latter set in the intersection is a hyperplane given by the condition that two vertices have the same weight if the vertices lie in the same orbit of $Q_0$ under action by $G$. Since $C_Q^G \subset C_Q$, it is obvious that walls of $C_Q$ that intersect $C_Q^G$ will emerge as walls in $C_Q^G$. 
+
+Ideally, we want to compute $C_Q^G$ without having to compute all of $C_Q$. To do so, we need a few more tools. We define, for an edge $\alpha \in Q_1$, the integral elementary flow map $e_\alpha \in \hom(Q_1, \Z)$ by
+\[
+e_\alpha(\beta) := \begin{dcases}
+    1, &\beta = \alpha \\
+    0, &\beta \neq \alpha
+\end{dcases}\;.
+\]
+Let $\{e_\alpha\}_{\alpha \in Q_1}$ be the standard $\Z$-basis vectors of $\hom(Q_1, \Z)$. Then, if $x \in \hom(Q_1, \Z)$, 
+    \[
+    x = \sum_{\alpha \,\in\, Q_1} a_\alpha e_\alpha
+    \]
+for some constants $a_\alpha$. It is shown in \cite{hille2003quivers} that the cone $C_Q$ is generated by the rays $I_Q(e_\alpha)$ for all primitive edges $\alpha$. A primitive edge is defined to be an edge $\alpha$ in $Q_1$ for which all directed paths from $\alpha^-$ to $\alpha^+$ contain $\alpha$. We will show a similar result in Proposition \ref{equivariant-cone-generators} for $C_Q^G$ where instead of primitive edges, orbits of $G$ of primitive edges will produce rays that generate the cone. 
+
+\begin{proposition}
+    An edge $\alpha$ of $Q$ is primitive if and only if all edges in the orbit $G \cdot \alpha$ are primitive.
+\end{proposition}
+
+\begin{proof}
+    This is equivalent to saying that automorphisms of $Q$ send primitive arrows to primitive arrows, that is, $\alpha \in Q_1$ is primitive exactly when $g \cdot \alpha$ is primitive. To show this, we suppose the edge $\alpha = \{\alpha^-, \alpha^+\}$ is \textit{not} primitive, meaning there exists a directed path $\alpha^-, v_1, \ldots, v_k, \alpha^+$ such that the sequence $\alpha^-$, $\alpha^+$ does not exist somewhere within the path. If $g$ is an automorphism of $Q$, then $g$ preserving the direction of edges and adjacency relations means that $g \cdot \alpha^-, g \cdot v_0, \ldots, g \cdot v_k, g \cdot \alpha^+$ is a path in $g \cdot Q \cong Q$. This is a path from the vertex $g \cdot \alpha^-$ to the vertex $g \cdot \alpha^+$ that does not contain the sequence $g \cdot \alpha^-$, $g \cdot \alpha^+$. Thus, $g \cdot \alpha$ is not primitive, and $g$ an automorphism (bijective, and thus having inverse) means that primitive arrows must be sent to primitive arrows, too.
+\end{proof}
+
+The above proposition means it is sensible to define the following:
+
+\begin{definition}
+    If the edges of an orbit $\mathcal{O} \in Q_1 / G$ are primitive then we say the orbit is primitive. If the edges are not primitive, then we say $\mathcal{O}$ is not primitive.
+\end{definition}
+
+\begin{proposition} \label{equivariant-cone-generators}
+    Let $G \leq \aut(Q)$. The cone of equivariant weights $C_Q^G$ is minimally generated by the rays 
+\[
+\phi_\mathcal{O} := I_Q\Big(\sum_{\alpha \,\in \,\mathcal{O}}e_\alpha\Big) 
+\]
+    where $\mathcal{O} \in Q_1 / G$ is a primitive orbit. If $\mathcal{O}$ is not primitive, then the corresponding ray $\phi_\mathcal{O}$ is a linear combination of rays corresponding to primitive orbits.
+\end{proposition}
+
+\begin{proof}  
+    Let $\theta \in C_Q^G$. Then, there exists an $G$-invariant flow $x$ such that $I_Q(x) = \theta$ and $x(\alpha) \geq 0$ for all $\alpha \in Q_1$. Then, we can express $x = \sum_{\mathcal{O}} a_\mathcal{O} \sum_{\alpha \in \mathcal{O}} e_\alpha$ for some constants $\alpha_\mathcal{O} \geq 0$ where $\mathcal{O} \in Q_1/G$. Using that $I_Q$ is linear,
+    \begin{align*}
+    \theta &= I_Q\Big(\sum_{\mathcal{O} \,\in\, Q_1/\aut(Q)}a_{\mathcal{O}} \sum_{\alpha \,\in\, \mathcal{O}} e_\alpha \Big) \\ 
+    &= \sum_{\mathcal{O} \,\in\, Q_1/\aut(Q)}a_{\mathcal{O}} I_Q\Big(\sum_{\alpha \,\in\, \mathcal{O}} e_\alpha \Big) \\
+    &= \sum_{\mathcal{O} \,\in\, Q_1/\aut(Q)} a_\mathcal{O}\phi_\mathcal{O}
+    \end{align*}
+    Using the same argument as in Hille, we can show the rays $\phi_\mathcal{O}$ where $\mathcal{O}$ is not primitive  are themselves equal to the sum of rays corresponding to primitive orbits. Namely, if $\mathcal{O}'$ is not primitive, then
+    \[
+    \phi_{\mathcal{O}'} = \sum_{\mathcal{O} }\phi_\mathcal{O}
+    \]
+    where $\mathcal{O}$ are the orbits that contain the edges in the paths that must exist since the edges in $\mathcal{O}'$ are not primitive. If some of these orbits are not primitive, they can be decomposed further into primitive orbits themselves.
+\end{proof}
+
+As mentioned, Hille shows that the possible walls of $C_Q$ correspond exactly to partitions of $Q_0$ into two sets. The natural analogue to our setting would be that the walls of $C_Q^G$ correspond to the partitions of the orbits $Q_0/G$. While the partitions do imply the existence of a possible wall, the converse does not generally hold for $C_Q^G$, as shown in Example \ref{vertex-partition-counterexample}.
+
+\begin{proposition} \label{wall-orbit-partition}
+    Every partition of $Q_0 / \aut(Q)$ into two nonempty sets defines a possible wall in $C_Q^{\aut(Q)}$.
+\end{proposition}
+
+\begin{proof}
+    A partition of $Q_0 / \aut(Q)$ is itself a partition of the vertices, and thus corresponds to a possible wall in $C_Q$.
+\end{proof}
+
+\begin{example} \label{vertex-partition-counterexample}
+    Consider the quiver $Q$ shown to the left in Figure \ref{quiver-cone-example}. We first compute the unrestricted weight space $C_Q$, which we will see is the three-dimensional cone whose two-dimensional projection is shown on the right in Figure \ref{quiver-cone-example}. By recognizing edges 3, 4, 5, and 6 are primitive edges and determining possible walls via partitions of $Q_0$ into two sets, we arrive with $C_Q$ where $\phi_i$ are the rays corresponding to $I_Q(e_i)$ $(i \in Q_1)$ and the (thin) lines between the rays are the possible walls. Note the bolded line within the cone is not a wall, but rather $C_Q^{\aut(Q)}$, which we will compute now. Via swapping vertex $b$ and $d$ and swapping edges 3 and 4 in $Q$, we can determine that $\aut(Q) \cong S^2 \times S^2$. Under this action, the primitive orbits are the orbit consisting of edges 3 and 4 and the orbit consisting of edges 5 and 6. The corresponding rays are $\phi_3 + \phi_4$ and $\phi_5 + \phi_6$ and are depicted in Figure \ref{quiver-cone-example} as the left-most gray dot and the right-most gray dot, respectively. These two minimally generate $C_Q^{\aut(Q)}$ as per Proposition \ref{equivariant-cone-generators} and so the bolded line is exactly $C_Q^{\aut(Q)}$. To determine the walls, we determine the possible partitions of $Q_0 /\aut(Q) = \{\{a\}, \{b, d\}, \{d\}\}$ into two nonempty sets. These determine 3 walls in $C_Q^{\aut(Q)}$, depicted by the three gray dots in the figure. However, there is a fourth possible wall inside of $C_Q^{\aut(Q)}$ where the two thin lines intersect over the bolded line. Moreover, direct calculation of the polytopes on both sides of the wall verify that the polytopes are indeed different and thus the wall is indeed realized in the cone. It is not determined by a partition of $Q_0 /\aut(Q)$, so the converse of Proposition \ref{wall-orbit-partition} cannot hold.
+    
+
+\end{example}
+
+\begin{figure} 
+    \centering
+    \includegraphics[width=0.7\linewidth]{Resources/wall-decomp-example.drawio.png}
+    \caption{}
+    \label{quiver-cone-example}
+\end{figure}
+
+As we will show in Theorem \ref{thm:quotient-graph-correspondence}, the partitions of $Q_0/G$ for any $G \leq \aut(Q)$ correspond bijectively with the possible walls in $C_Q^G$ if we consider only a subset of each polytope, namely the $G$-invariants of $\Delta(Q, \theta)$.
+
+\begin{definition}
+    Let $G \leq \aut(Q)$ and $\theta$ be equivariant under $G$. We define $\Delta(Q, \theta)^G$ to be the points of the polytope $\Delta(Q, \theta)$ fixed by all elements of $G$. That is,
+    \[
+    \Delta(Q, \theta)^G := \{x \in \Delta(Q, \theta) \:|\: (g \cdot x)(\alpha) = x(\alpha) \text{ for all } g \in G\}.
+    \]
+\end{definition}
+
+Let $I_Q^G$ be the restriction of $I_Q$ to
+$\hom(Q_1, \Z)^G$, the set of flows invariant under the action of $G$. It follows that the fibers of each $\theta \in C_Q^G$ under $I_Q^G$ are exactly the sets $\Delta(Q, \theta)^G$. In fact, $\Delta(Q, \theta)^G$ is itself a convex polytope; this follows from the fact that the fixed points of any affine mapping (geometric automorphisms of polytopes are exactly affine mappings) form an affine subset, and the intersection of an affine subset with a polytope is another polytope. We now show this polytope is realized as the polytope for the quotient graph with some weight.
+
+\begin{definition}
+    Let $G \leq \aut(Q)$. The quotient quiver $Q/G$ is the quiver realized by taking the quotient of the underlying directed multigraph by $G$. The vertices are orbits of the action of $G$ on $Q_0$ (elements of $Q_0/G$), and a directed edge $(\mathcal{O}_1, \mathcal{O}_2) \in Q_0/\aut(Q) \times Q_0/\aut(Q)$ is an edge in $Q/G$ if there exists some $u \in \mathcal{O}_1$ and $v \in \mathcal{O}_2$ such that $(u, v) \in Q_1$. 
+\end{definition}
+
+The obvious canonical projections 
+\begin{align*}
+    \pi_0 : Q_0 \longrightarrow (Q/G)_0 := Q_0/G \\
+    \pi_1 : Q_1 \longrightarrow (Q/G)_1 := Q_1/G
+\end{align*}
+induce the two maps of weights and flows
+\begin{align*}
+    \bar \pi_0 &: \hom(Q_0, \Z)^G \longrightarrow \hom((Q/G)_0, \Z), \qquad \bar\pi_0(\theta)(v) = \sum_{w \,\in\, \pi_0^{-1}(v)}\theta(w) \qquad (v \in (Q/G)_0) \\
+    \bar\pi_1 &: \hom(Q_1, \Z)^G \longrightarrow \hom((Q/G)_1, \Z), \qquad \bar\pi_1(x)(\alpha) = \sum_{\beta \,\in\, \pi_1^{-1}(\alpha)}x(\beta) \qquad (\alpha \in (Q/G)_1)
+\end{align*}
+which can both be easily checked to be linear isomorphisms. Moreover, since we require the weight and flows to be $G$-invariant, it follows that $\bar \pi_0(\theta)(v) = |\pi_0^{-1}(v)| \cdot \theta(w)$ for any $w \in \pi_0^{-1}(v)$ and $\bar\pi_1(x)(\alpha) = |\pi_1^{-1}(\alpha)| \cdot x(\beta)$ for any $\beta \in \pi_1^{-1}(\alpha)$. In particular, this means that $\bar\pi_1$ restricts to a mapping on the nonnegative coordinate space $\hom(Q_1, \R_{\geq 0})^G \longrightarrow \hom((Q/G)_1, \R_{\geq 0})$.
+
+\begin{proposition} \label{quotient-acyclic}
+    Suppose $G \leq \aut(Q)$. If $Q$ is acyclic, then $Q/G$ is acyclic.
+\end{proposition}
+
+\begin{proof}
+    Suppose $Q/G$ is cyclic. Thus, there exists a cycle $v_1, v_2, \ldots, v_k =v_1$ in $Q/G$. We now construct a cycle in $Q$. Let $c_1 \in Q_0$ such that $\pi_0(c_1) = v_1$. Since $(v_1, v_2)$ is an edge in $(Q/G)_1$, there must exist at least one edge from a vertex $u_1 \in \pi_0^{-1}(v_1)$ to a vertex $u_2 \in \pi_0^{-1}(v_2)$. Since $u_1$ and $c_1$ lie in the same orbit, we have that $c_1$ is the image of a graph automorphism $g$ sending vertex $u_1$ to $c_1$. Then, there exists an edge starting at $c_1$ and ending at $c_2:= g \cdot u_2$, which is necessarily in $\pi_0^{-1}(u_2)$. Performing this process again at $c_2$ produces an edge from $c_2$ to $c_3$ such that $c_3 \in \pi_0^{-1}(v_3)$. After $k - 1$ iterations, this will produce a path $c_1, c_2, \ldots, c_k$ such that $\pi_0(c_k) = \pi_0(c_1) = v_1$. If $c_1 = c_k$, we are done; this is a cycle in $Q$. If not, repeat the entire process again starting at $c_k$ to construct a path $c_1, \ldots, c_k, c_{k+1}, \ldots, c_{2k}$ such that $\pi_0(c_{2k}) = \pi_0(c_k) = \pi_0(c_1) = v_1$. Since $Q$ is finite by assumption, $\pi_0^{-1}(v_1)$ is finite as well; thus, after some number of iterations of the above process (at maximum $|\pi_0^{-1}(v_1)|$ iterations), we will create a cycle in $Q$. Then, $Q$ must be cyclic.
+\end{proof}
+
+The above result means $\Delta(Q/G, \theta)$ is a polytope, nonempty exactly when $\theta \in C_{Q/G}$.
+
+\section{Proof of Theorem \ref{thm:quotient-graph-correspondence}}
+\begin{proof}
+    Recall $I_Q^G$ was defined above to be $I_Q$ restricted to the space of $G$-invariant flows $\hom(Q_1, \Z)^G$. It is obvious that $I_Q^G$ maps into the space of $G$-invariant weights $\hom(Q_0, \Z)^G$. Let $I_{Q/G} : \hom((Q/G)_1, \Z) \longrightarrow \hom((Q/G)_0, \Z)$ be the incidence map of the quotient quiver $Q/G$. We thus have the following diagram, which we will show commutes.
+
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGhvbV9HKFFfMSwgXFxSKSJdLFswLDIsIlxcaG9tKChRL0cpXzEsIFxcUikiXSxbMiwwLCJcXGhvbV9HKFFfMCwgXFxSKSJdLFsyLDIsIlxcaG9tKChRL0cpXzAsIFxcUikiXSxbMCwxLCJcXGJhclxccGlfMSIsMl0sWzAsMiwiSV9RXkciXSxbMSwzLCJJX3tRL0d9Il0sWzIsMywiXFxiYXJcXHBpXzAiLDJdXQ==t
+\[\begin{tikzcd}
+	{\hom(Q_1, \Z)^G} && {\hom(Q_0, \Z)^G} \\
+	\\
+	{\hom((Q/G)_1, \Z)} && {\hom((Q/G)_0, \Z)}
+	\arrow["{I_Q^G}", from=1-1, to=1-3]
+	\arrow["{\bar\pi_1}"', from=1-1, to=3-1]
+	\arrow["{\bar\pi_0}"', from=1-3, to=3-3]
+	\arrow["{I_{Q/G}}", from=3-1, to=3-3]
+\end{tikzcd}\]
+Take $x \in \hom(Q_1, \Z)^G$, and for any vertex $v \in (Q/G)_0$,
+\begin{align*}
+    I_{Q/G}(\bar\pi_1(x))(v) &= \sum_{\alpha \,\in\, (Q/G)_1\:|\: \alpha^+ \,=\,v} \bar\pi_1(x)(\alpha) - \sum_{\alpha \,\in\, (Q/G)_1\:|\: \alpha^-\,=\,v} \bar\pi_1(x)(\alpha) \\
+    &= \sum_{\alpha \, \in\, (Q/G)_1\:|\: \alpha^+ \,=\,v} |\pi_1^{-1}(\alpha)|\cdot x(\beta_\alpha) - \sum_{\alpha \,\in\, (Q/G)_1\:|\: \alpha^-\,=\,v}  |\pi_1^{-1}(\alpha)|\cdot x(\beta_\alpha)
+\end{align*}
+where $\beta_\alpha \in \pi_1^{-1}(\alpha)$. Then, for any $\alpha \in (Q/G)_1$, note that $|\pi_1^{-1}(\alpha)|$ is a multiple of $|\pi_0^{-1}(v)|$ because each vertex $w \in \pi_0^{-1}(v)$ must have the same number of ingoing (or outgoing) edges in $\pi_1^{-1}(\alpha)$ as $v$ does due to automorphisms preserving edge count and orientation. Thus, supposing $|\pi_1^{-1}(\alpha)| = k_\alpha|\pi_0^{-1}(v)|$ for all $\alpha$, the integer $k_\alpha$ counts the number of edges entering (or exiting) $w$ that are in the orbit that maps to $\alpha$ by $\pi_1$. We can then write
+\[
+= \sum_{\alpha \, \in\, (Q/G)_1\:|\: \alpha^+ \,=\,v} k_\alpha|\pi_0^{-1}(v)|\cdot x(\beta_\alpha) - \sum_{\alpha \,\in\, (Q/G)_1\:|\: \alpha^-\,=\,v}  k_\alpha|\pi_0^{-1}(v)|\cdot x(\beta_\alpha).
+\]
+On the other hand, we have for any vertex $v \in (Q/G)_0$,
+\begin{align*}
+    \bar\pi_0(I_Q^G(x))(v) &= |\pi_0^{-1}(v)|\cdot I_Q^G(x)(w_v) \\
+    &= \sum_{\beta \, \in\, Q_1\:|\: \beta^+ \,=\,w_v} |\pi_0^{-1}(v)|\cdot x(\beta) - \sum_{\beta \,\in\, Q_1\:|\: \beta^-\,=\,w_v} |\pi_0^{-1}(v)|\cdot x(\beta)
+\end{align*}
+where $w_v \in \pi_0^{-1}(v)$. We can change our sum to sum over all edges $\alpha \in (Q/G)_1$ that are entering $v$ if we simultaneously sum over each edge in the orbit $\pi_1^{-1}(\alpha)$ that are incident to $w_v$.  However, since each edge in the orbit has constant flow, we can replace the second sum with $k_\alpha\cdot x(\beta_\alpha)$ for some element $\beta_\alpha \in \pi_1^{-1}(\alpha)$ where $k_\alpha$ can be seen to be the same constant as used previously. Thus, we have
+\begin{align*}
+\sum_{\beta \, \in\, Q_1\:|\: \beta^+ \,=\,w_v} |\pi_0^{-1}(v)|\cdot x(\beta) &= \sum_{\alpha \, \in\, (Q/G)_1\:|\: \alpha^+ \,=\,v} \left(\sum_{\beta \, \in\, \pi_1^{-1}(\alpha) \:|\: \beta^+ \,=\,w_v} |\pi_0^{-1}(v)|\cdot x(\beta) \right)\\
+&= \sum_{\alpha \, \in\, (Q/G)_1\:|\: \alpha^+ \,=\,v} k_\alpha|\pi_0^{-1}(v)|\cdot x(\beta_\alpha)
+\end{align*}
+and the same holds for edges exiting $v$. Hence, 
+\[
+    I_{Q/G}(\bar\pi_1(x))(v) = \sum_{\alpha \, \in\, (Q/G)_1\:|\: \alpha^+ \,=\,v} k_\alpha|\pi_0^{-1}(v)|\cdot x(\beta_\alpha) - \sum_{\alpha \,\in\, (Q/G)_1\:|\: \alpha^-\,=\,v}  k_\alpha|\pi_0^{-1}(v)|\cdot x(\beta_\alpha) = \bar\pi_0(I_Q^G(x))(v)
+\]
+and so the diagram commutes.
+
+Since $Q/G$ is acyclic via Proposition \ref{quotient-acyclic}, $\Delta(Q/G, \bar\pi_0(\theta))$ defined by the intersection $ I_{Q/G}^{-1}(\bar\pi_0(\theta))\cap \hom((Q/G)_1, \Z_{\geq0})$ is indeed a polytope. We now show $\bar\pi_1(\Delta(Q, \theta)^G) = \Delta(Q/G, \bar\pi_0(\theta))$ via two-way inclusion. Using the diagram above, 
+\begin{align*}
+    (I_{Q/G} \circ \bar\pi_1)(\Delta(Q, \theta)^G) = (\bar\pi_0\circ I_Q^G)(\Delta(Q, \theta)^G)
+\end{align*}
+yielding $\bar\pi_1(\Delta(Q, \theta)^G)\subseteq I_{Q/G}^{-1}(\bar\pi_0(\theta))$. Since $\bar\pi_1$ restricts to an isomorphism on $\hom(Q_1, \Z_{\geq0})^G$ to $\hom((Q/G)_1, \Z_{\geq 0})$ and $\Delta(Q, \theta)^G \subset \hom(Q_1, \Z_{\geq0})^G$, we get the one-way inclusion
+\[
+\bar\pi_1(\Delta(Q, \theta)^G) \subseteq I_{Q/G}^{-1}(\bar\pi_0(\theta)) \cap \hom((Q/G)_1, \Z_{\geq 0}) = \Delta(Q/G, \bar\pi_0(\theta)).
+\]
+To show the reverse inclusion, use the diagram to write
+\[
+(I_Q^G \circ \bar\pi^{-1}_1)(\Delta(Q/G, \bar\pi_0(\theta)) = (\bar\pi_0^{-1} \circ I_{Q/G})(\Delta(Q/G, \bar\pi_0(\theta))
+\]
+yielding $\bar\pi^{-1}_1(\Delta(Q/G, \bar\pi_0(\theta)) \subseteq (I_Q^G)^{-1}(\theta)$. Similarly, $\bar\pi_1^{-1}$ restricts to an isomorphism on $\hom((Q/G)_1, \Z_{\geq 0})$ to $\hom(Q_1, \Z_{\geq0})^G$ giving
+\[
+\bar\pi^{-1}_1(\Delta(Q/G, \bar\pi_0(\theta)) \subseteq (I_Q^G)^{-1}(\theta)\cap \hom(Q_1, \Z_{\geq0})^G = \Delta(Q, \theta)^G,
+\]
+or $\Delta(Q/G, \bar\pi_0(\theta) \subseteq \bar\pi_1(\Delta(Q, \theta)^G)$. Thus, $\bar\pi_1(\Delta(Q, \theta)^G) = \Delta(Q/G, \bar\pi_0(\theta))$. Since $\bar\pi_1$ is a linear isomorphism, we have that the image of an affine subspace is the affine span of the image. Hence, $\bar\pi_1(\aff(\Delta(Q, \theta)^G)) = \aff(\bar\pi_1(\Delta(Q, \theta)^G)) = \aff(\Delta(Q/G, \bar\pi_0(\theta)))$ and so $\bar\pi_1$ clearly restricts to an isomorphism between the affine spaces, the polytopes, and the lattice points of the polytope (since $\bar\pi_1$ is an integral map). Thus, $\Delta(Q, \theta)^G \cong \Delta(Q/G, \bar\pi_0(\theta)).$
+
+Finally, for the weight cones, we have
+\begin{align*}
+    \bar\pi_0(C_Q^G) &= \bar\pi_0(I_Q^G(\hom(Q_1, \Z_{\geq 0})^G)) \\ 
+    &= I_{Q/G}(\bar\pi_1(\hom(Q_1, \Z_{\geq 0})^G)) \\ 
+    &= I_{Q/G}(\hom((Q/G)_1, \Z_{\geq 0})) \\
+    &= C_{Q/G}.
+\end{align*}
+completing the proof.
+\end{proof}
+
+\section{Tightening Quivers with Canonical Weight}
+
+The canonical weight $\delta_Q$ of a quiver $Q$ is the image under $I_Q$ of the flow of all 1's. Much study has gone into the polytopes associated with quivers along with their canonical weight, especially since the polytope of the canonical weight is known to be reflexive. For example, \cite{domokos2016equations} and others demonstrate that there are only five polytopes that arise from quivers with first Betti number 2 up to integral-affine isomorphism. In this section, we present four different graph operations that can be used to completely tighten an arbitrary quiver with respect to its canonical weight.
+
+\begin{definition}
+    A tightening operation is a graph operation performed on $Q$ that takes the quiver $Q$ to another quiver $\hat Q$ such that $|\hat Q_1| < |Q_1|$ and $\Delta(Q, \delta_Q) \cong \Delta(\hat Q, \delta_{\hat Q})$. A quiver $Q$ is called tight if no tightening operations can be performed on $Q$.
+\end{definition}
+
+It is important to note that in this section, we are solely tightening with respect to the canonical weight. Also, it is immediate by definition that every quiver can be ``tightened'' via repeated tightening operations to a tight form. The only tightening operations we will need are the two well-known operations presented below.
+
+\begin{definition} We define two simple graph operations below. Recall that the contraction of an edge $\alpha = (\alpha^- , \alpha^+)$ in $Q$ is the gluing of the vertices $\alpha^-$ and $\alpha^+$ followed by the removal of $\alpha$.
+\begin{itemize}
+    \item[(i)](Pruning)
+    Given a quiver $Q$, define $\hat Q$ as the quiver gained by contracting an edge of $Q$ that is not contained in any underlying undirected cycle of $Q$.
+    \item[(ii)](Path Contraction)
+    Suppose $v$ is a vertex in $Q$ of in-degree 1 and out-degree 1. Define $\hat Q$ as the quiver gained by contracting either one of the edges incident to $v$.
+\end{itemize}
+\end{definition}
+
+\begin{figure}[h!bt]
+        \centering
+        \includegraphics[width=0.5\linewidth]{Resources/graph_operations.png}
+        \caption{The graph operations path contraction (left) and pruning (right).}
+        \label{fig:placeholder}
+\end{figure}
+
+\begin{proposition}
+    Pruning and path contraction are tightening operations.
+\end{proposition}
+
+\begin{proof}
+    Can be trivially devised from Proposition 3.7 and Corollary 3.8, respectively, in \cite{domokos2016equations}.
+\end{proof}
+
+The next operation we present allows us to understand the polytope of a quiver through the product of the polytopes of two subquivers that meet at just one vertex. Recall that the wedge sum of two quivers $Q$ and $P$, denoted $Q \vee P$, is the quiver arising from taking the disjoint union of $Q$ and $P$ and gluing them together at exactly one vertex.
+The below result was known in \cite{domokos2016equations}.
+
+\begin{proposition} (Cut-Vertex Decomposition)
+    If $Q$ and $Q'$ are two quivers, then $\Delta(Q \vee Q', \delta_{Q \vee Q'}) \cong \Delta(Q, \delta_Q) \times \Delta(Q', \delta_{Q'})$.
+\end{proposition}
+
+\begin{proof}
+    Any flow $x \in \Delta(Q \vee Q', \delta_{Q \vee Q'})$ uniquely decomposes as $x = y + y'$ for some flows $y \in \Delta(Q, \delta_Q)$ and $y' \in \Delta(Q', \delta_{Q'})$. Thus, the map $\Delta(Q \vee Q', \delta_{Q \vee Q'}) \longrightarrow \Delta(Q, \delta_Q) \times \Delta(Q', \delta_{Q'})$, $x \mapsto (y, y')$ is clearly a restriction of an (integral) linear isomorphism of the affine spaces in which they lie. Hence, it is an integral-affine isomorphism.
+\end{proof}
+
+The above result means it is enough to consider quivers without any cut vertices, that is, vertices whose deletion would disconnect the graph. In light of this, we now define our final graph operation but only for quivers without cut vertices.
+
+\begin{definition}
+Suppose $Q$ has no cut vertices. Let $C$ be an undirected cycle of $Q$. Fix an undirected path decomposition of $C$ into paths $p_1, \ldots, p_k$, and suppose that each path $p_i$ has terminal vertices $p_i'$ and $p_i''$ for $1 \leq i \leq k$. We define the permutable subquiver of $p_i$, denoted $R_{p_i}$, to be the subquiver of $Q$ realized by the union of all undirected paths connecting $p_i'$ and $p_i''$ that are contained in $Q - (C - p_i)$, the subgraph of $Q$ with all vertices and edges of $C$ outside of $p_i$ removed. That is, if $Q^c_{p_i} := Q - (C - p_i)$ and $\gamma$ is an undirected path between $p_i'$ and $p_i''$,
+\[
+R_{p_i} := \bigcup_{\gamma \,\subset\, Q^c_{p_i}}\gamma
+\]
+with orientations on $R_{p_i}$ inherited from $Q$.
+This produces a collection of generally nondisjoint subquivers $\mathcal{R}_C := \{R_{p_i}\}^k_{i=1}$ of $Q$.
+We say $\mathcal{R}_C$ is permutation-ready if
+\begin{itemize}
+    \item[(i)] $R_{p_i} \cap R_{p_j} = p_i \cap p_j$ for all distinct pairs $R_{p_i}, R_{p_j} \in \mathcal{R}_C$
+    \item[(ii)]$\bigcup_{R_{p_i} \,\in\,\mathcal{R}_C }R_{p_i} = Q$
+\end{itemize}
+\end{definition}
+
+\begin{definition} \label{subquiver_permutation}
+    (Subquiver Permutation) Suppose $Q$ is a quiver, $C \subset Q$ an undirected cycle, and $\mathcal{R}_C$ permutation-ready. Let $R_{p_i}, R_{p_j} \in \mathcal{R}_C$. Further, define an orientation on the cycle $C$ and in an order matching this orientation, denote the terminal vertices of $p_i$ as $v'$ and $v''$ and the terminal vertices of $p_j$ as $u'$ and $u''$. Define $\hat Q$ to be the quiver formed by first taking the disjoint union of $R_{p_i}$, $R_{p_j}$, and $Q' := Q - ((R_{p_i} - \{v', v''\}) \cup (R_{p_j} - \{u', u''\}))$ and then making the following vertex identifications:
+    \begin{itemize}
+        \item[(i)] $v' \in R_{p_i}$ with $u' \in Q'$
+        \item[(ii)] $v'' \in R_{p_i}$ with $u'' \in Q'$
+        \item[(iii)] $u' \in R_{p_j}$ with $v' \in Q'$
+        \item[(iv)] $u'' \in R_{p_j}$ with $v'' \in Q'$.
+    \end{itemize}
+    We say $\hat Q$ is the quiver resulting from permuting subquivers $R_{p_i}$ with $R_{p_j}$.
+\end{definition}
+
+\begin{conjecture}
+    Suppose $Q$ is a quiver, $C \subset Q$ an undirected cycle or path, and $\mathcal{R}_C$ permutation-ready. For any $R_{p_i},\,R_{p_j} \in \mathcal{R}_C$, let $\hat Q$ be the quiver formed by permuting subquivers $R_{p_i}$ and $R_{p_j}$. Then, $\hat Q$ is an acyclic quiver, and $\Delta(Q, \delta_Q) \cong \Delta(\hat Q, \delta_{\hat Q})$.
+\end{conjecture}
+
+\begin{proof}
+    
+\end{proof}
+
+The following necessary and sufficient condition for the tightness of a quiver with canonical weight is given in \cite{domokos2016equations}. We use it to show our three operations are enough to reduce any quiver with canonical weight to a tight form.
+
+\begin{proposition}\label{canonical-contraction-condition}
+    (Joó-Domokos) Given a connected quiver $Q$ the pair $(Q, \delta_Q)$ is tight if and only if there is no partition $Q_0 = S \sqcup S'$ such that there is at most one arrow from $S$ to $S'$ and there is at most one arrow from $S'$ to $S$.
+\end{proposition}
+
+\begin{proposition}
+    Every quiver $Q$ can be tightened via a finite number of prunes, path contractions, and subquiver permutations.
+\end{proposition}
+
+\begin{proof}
+    We show that Proposition \ref{canonical-contraction-condition} holds exactly when we can find two permutable subquivers such that their permutation results in a quiver with an arrow contractable via either pruning or chain contraction. For the forward direction, suppose such a decomposition exists. We prove this in two cases. First, let $Q_0 = S \sqcup S'$, $\alpha$ be an arrow from $S'$ to $S$, and no other arrow between the two sets. Take $C$ to be an undirected path containing $\alpha$, say $c_1, \ldots, c_n$ starting in $S'$ and ending in $S$. Decompose it into three paths $p_1 = (c_1, c_2,  \ldots, c_k = \alpha^-)$, $p_2 = (\alpha^-, \alpha^+)$, and $p_3 = (\alpha^+ = c_k, c_{k+1}, \ldots, c_n)$. Produce from this undirected path decomposition of $C$ the subquiver collection $\mathcal{R}_C$ and see that it is permutation-ready, owing to $\alpha$ being a bridge between $S'$ and $S$. Then, let $\hat{Q}$ be the quiver produced by subquiver-permuting $R_{p_2}$ and $R_{p_3}$. By construction, $R_{p_2}$ is either an edge leading to a leaf vertex or an edge leading to a tree structure, that is, there are no undirected loops past this bridge. In either case, $\hat Q$ can be pruned to remove $\alpha$.
+    
+    % such a decomposition exists; that is, suppose $Q_0 = S \sqcup S'$ with $\alpha$ an arrow from $S$ to $S'$ and another arrow $\beta$ from $S'$ to $S$, as in Figure \ref{tightenquiv-case-1}. Let $P \subset Q$ be the permutable subquiver induced by vertices $\alpha^-$ and $\beta^+$ without $\alpha^+$ if $\beta$ exists or by $\alpha^-$ and some $v \in S \setminus \{\alpha^-\}$ without $\alpha^+$ otherwise. Similarly, let $R \subset Q$ be the permutable subquiver induced by vertices induced by $\alpha^-$ and $\alpha^+$ without $\beta^+$ if $\beta$ exists or by $\alpha^-$ and $\alpha^+$ without $v$, otherwise. 
+    
+    In a similar way, $P$ is exactly the induced subgraph of the set of vertices in a tree incident to $\alpha^-$ or $\beta^+$ (or $v$ if $\beta$ does not exist). This follows from every edge in $Q[\hat{S}]$ being part of a path from $\alpha^-$ to $\beta^+$ or part of a tree incident to a non-terminal vertex in such a path. In the same way, any vertex in $S'$ cannot be part of a path from $\alpha^-$ to $\beta^+$ (or $v$ if $\beta$ does not exist) since any undirected path containing any vertex in $S'$ must necessarily contain $\alpha^+$.
+
+    Notably, $P \cap R = \{\alpha^-\}$ and so $P$ and $R$ permute. Then, we can define $\widetilde{Q}$ as the resulting quiver after permuting $P$ and $R$ and apply Proposition \ref{subquiver_permutation} to see $\Delta(Q, \delta_Q)$ is integral-affinely isomorphic to $\Delta(\widetilde{Q}, \delta_{\widetilde{Q}})$. At this point, $\widetilde{Q}$ resembles one of the two cases below on the right. If $\beta$ exists, $\alpha$ can be contracted via chain contraction. Otherwise, pruning contracts $\alpha$. In either case, we result with a quiver that with the canonical weight produces a polytope integral-affinely isomorphic to $\Delta(Q, \delta_Q)$.
+    \begin{figure}[h!]
+    \label{tightenquiv-case-1}
+        \centering
+        \includegraphics[width=0.75\linewidth]{Resources/subquiv_permutation.drawio.png}
+    \end{figure}
+    If there are more contractible arrows, then Proposition \ref{canonical-contraction-condition} holds and so we can perform subquiver permutation followed by pruning or chain contraction to contract the arrow as explained above. If no more contractible arrows exist, the quiver is tight.
+\end{proof}
+    
+\newpage
+\bibliographystyle{alpha}
+\bibliography{references} 
+
+\end{document}

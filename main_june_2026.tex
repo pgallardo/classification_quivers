@@ -116,160 +116,110 @@ g\cdot \Delta = \Delta
 While there are several equivalence relations among polytopes. We will use Definition \ref{def:auto_polytope} because it's the one used in \cite{domokos2016equations} and we will take advantage of some of their results. 
 
 
-\subsection{On quivers and their representations}  
+\subsection{Abstract flow spaces}
 
-A quiver $Q=(Q_0,Q_1)$ is a finite, directed multigraph with vertex set $Q_0$ and edge set $Q_1$. We assume throughout that $Q$ is connected and acyclic, that is, it has no directed cycles. For an edge $\alpha \in Q_1$ we denote its source and target by $\alpha^-$ and $\alpha^+$, respectively. 
-\begin{definition}\label{def:valued-field}
-Let $k$ be a field. A \emph{valuation} on $k$ is a surjective map $v\colon k^\times \to \Gamma$ onto a totally ordered abelian group $(\Gamma, +, \geq)$ such that, for all $x,y \in k^\times$,
+Let $k$ be a field and $m_k \subseteq k$ a \emph{sub-semiring}, that is, a subset satisfying $0, 1 \in m_k$ and closed under addition and multiplication. Since $m_k \subseteq k$ and $k$ is a field, cancellativity is automatic. We call $(k, m_k)$ an \emph{admissible pair}, and say that $z \in k$ is \emph{non-negative}, written $z \geq_k 0$, if $z \in m_k$.
+
+A \emph{quiver} $Q=(Q_0,Q_1)$ is a finite, connected, acyclic directed multigraph with vertex set $Q_0$ and edge set $Q_1$. For an edge $\alpha \in Q_1$ we denote its source and target by $\alpha^-$ and $\alpha^+$, respectively.
+
+\begin{definition}
+A \emph{weight} of $Q$ is a map $\theta \in \map(Q_0, k)$. A \emph{flow} on $Q$ is a map $x \in \map(Q_1, k)$. The \emph{incidence map} $I_Q : \map(Q_1, k) \longrightarrow \map(Q_0, k)$ is defined by
 \[
-v(xy) = v(x) + v(y), \qquad v(x+y) \geq \min\{v(x), v(y)\} \ \ (\text{when } x+y \neq 0).
+I_Q(x)(v) \;=\; \sum_{\alpha^+ = v} x(\alpha) - \sum_{\alpha^- = v} x(\alpha) \qquad (v \in Q_0).
 \]
-We set $v(0) := \infty$. The \emph{valuation ring} of $(k,v)$ is the subring
-\[
-m_k := \mathcal{O}_v = \{z \in k \mid v(z) \geq 0\}.
-\]
-which is  usually known as the  ring of integral elements of the valued field $k$.
-We say that $z \in k$ is \emph{non-negative}, written $z \geq_k 0$ (or $z \geq 0$ when the valuation is understood), if $z \in \mathcal{O}_v$, that is, if $v(z) \geq 0$.
+If we wish to emphasize the flow $x$, we write $I_Q(x)(v)$ in place of $\theta(v)$.
 \end{definition}
-\begin{example}
-For $k = \mathbb{F}_p((t))$, the \emph{$t$-adic valuation} $v\big(\sum_{i \geq i_0} a_i t^i\big) = \min\{i \mid a_i \neq 0\}$ has value group $\Gamma = \mathbb{Z}$ and valuation ring $\mathcal{O}_v = \mathbb{F}_p[[t]]$. Likewise, for $k = \mathbb{Q}_p$ the $p$-adic valuation has $\Gamma = \mathbb{Z}$ and $\mathcal{O}_v = \mathbb{Z}_p$. 
-\end{example}
+
+\begin{definition}
+For an admissible pair $(k, m_k)$, a quiver $Q$, and a weight $\theta \in \map(Q_0, k)$, the \emph{delta flow space} associated to $Q$ and $\theta$ is
+\[
+\Delta(Q, \theta) \;:=\; I_Q^{-1}(\theta) \;\cap\; \map(Q_1, m_k).
+\]
+\end{definition}
+
+\begin{definition}
+Let $P \subset Q$ be a spanning subquiver, that is, $P_0 = Q_0$. The set of $m_k$-valued flows supported on $P$ is
+\[
+D_P \;:=\; \bigl\{\, x \in \map(Q_1, m_k) \;\big|\; x(\alpha) = 0 \text{ for all } \alpha \notin P_1 \,\bigr\}.
+\]
+The \emph{weight cone} of $P$ is $C_P := I_Q(D_P) \subseteq \map(Q_0, k)$, and the \emph{delta flow} of $P$ is $\Delta(P, \theta) := I_Q^{-1}(\theta) \cap D_P$.
+\end{definition}
+
+\begin{lemma}[Translation action]\label{lem:translation}
+The $m_k$-submodule $\mathcal{K}_Q := \ker I_Q \cap \map(Q_1, m_k)$ acts on $\Delta(Q, \theta)$ by translation: if $x \in \Delta(Q, \theta)$ and $y \in \mathcal{K}_Q$, then $x + y \in \Delta(Q, \theta)$. Consequently, $\Delta(Q, \theta)$ is either empty or a torsor for $\mathcal{K}_Q$.
+\end{lemma}
+
+\begin{proof}
+Since $m_k$ is closed under addition, $x(\alpha) + y(\alpha) \in m_k$ for all $\alpha \in Q_1$. Since $I_Q$ is linear, $I_Q(x + y) = I_Q(x) + I_Q(y) = \theta + 0 = \theta$. Hence $x + y \in \Delta(Q, \theta)$.
+\end{proof}
+
 \begin{remark}
-The classical theory of \cite{hille2003quivers} is the parallel \emph{ordered-field} instance $k = \mathbb{R}$, $\mathcal{O}_v = \mathbb{R}_{\geq 0}$. There $\mathcal{O}_v$ is a \emph{pointed} monoid ($\mathcal{O}_v \cap (-\mathcal{O}_v) = \{0\}$) and $\geq_k$ is a genuine order, which is precisely what makes $\Delta(Q,\theta)$ a bounded convex polytope. A valuation ring is never pointed ($\mathcal{O}_v = -\mathcal{O}_v$), so the two settings are formally analogous but geometrically distinct: over a valued field $\Delta(Q,\theta)$ is a set of \emph{integral flows} rather than a polytope. We develop both in parallel and flag where they diverge.
+By definition, $\theta \in C_Q := I_Q(\map(Q_1, m_k))$ if and only if $\Delta(Q, \theta) \neq \varnothing$. This emptiness criterion holds for any admissible pair $(k, m_k)$.
 \end{remark}
+
+\subsection{The ordered and valued cases}\label{sec:two-cases}
+
+We distinguish two families of admissible pairs by isolating the axiom that governs the geometry of $\Delta(Q, \theta)$.
+
 \begin{definition}
- A weight of $Q$ is a mapping $\theta \in \map(Q_0, k)$. A flow on $Q$ is a mapping $x \in \map(Q_1, k)$. The incidence map, or flow map,  $I_Q : \map(Q_1, k) \longrightarrow \map(Q_0, k)$ of $Q$ is
-given by
-\begin{align*}
-\theta:=I_Q(x)
- &&
-\theta(v) = \sum_{\alpha^+ \,=\,v} x(\alpha) - \sum_{\alpha^-\,=\,v} x(\alpha) \quad \quad (v \in Q_0),
-\end{align*}
- and associates to a flow $x$ a weight
- $\theta$. If we want to emphasize that we are mapping a flow $x$, we may write $I_Q(x)(v)$ instead of $\theta(v)$. 
+We say $(k, m_k)$ satisfies axiom \emph{(P)} if $m_k$ is \emph{pointed}, that is, $m_k \cap (-m_k) = \{0\}$.
 \end{definition}
 
+The two cases of interest are:
 
-\begin{definition}
-For a fixed $\theta \in \map(Q_0, k)$, the space of flows with input $\theta$ is the affine subspace $I_Q^{-1}(\theta)$.
-Then, the \emph{Delta flow} associated with $Q$ and the weight $\theta$ is defined as
+\begin{itemize}
+    \item \textbf{Ordered case.} Let $k$ be an ordered field and $m_k = k_{\geq 0} := \{z \in k : z \geq 0\}$. Then $m_k$ is a pointed sub-semiring satisfying (P), and $m_k - m_k = k$. The standard instance is $k = \mathbb{R}$, $m_k = \mathbb{R}_{\geq 0}$.
+
+    \item \textbf{Valued case.} Let $k$ be a field equipped with a valuation $v : k^\times \to \Gamma$ (a surjective map onto a totally ordered abelian group $(\Gamma, +, \geq)$ satisfying $v(xy) = v(x)+v(y)$ and $v(x+y) \geq \min\{v(x),v(y)\}$, extended by $v(0) := \infty$). Set $m_k := \mathcal{O}_v = \{z \in k : v(z) \geq 0\}$, the \emph{valuation ring} of $(k,v)$. Since $-1 \in \mathcal{O}_v$, axiom (P) fails: $m_k \cap (-m_k) = \mathcal{O}_v \neq \{0\}$. Standard instances are $k = \mathbb{F}_p((t))$ with the $t$-adic valuation ($m_k = \mathbb{F}_p[[t]]$) and $k = \mathbb{Q}_p$ with the $p$-adic valuation ($m_k = \mathbb{Z}_p$).
+\end{itemize}
+
+\begin{remark}
+Axiom (P) is precisely what makes $\Delta(Q,\theta)$ bounded in the ordered case. For an acyclic quiver $Q$, any $y \in \ker I_Q \cap m_k^{Q_1}$ satisfying (P) must be zero (a nonzero non-negative flow on an acyclic quiver cannot have zero net flux at every vertex), so $\mathcal{K}_Q = \{0\}$ and $\Delta(Q,\theta)$ is a convex polytope by Lemma~\ref{lem:translation} \cite{hille2003quivers}. In the valued case, axiom (P) fails and $\mathcal{K}_Q \cong \mathcal{O}_v^{b_1(Q)}$, so a nonempty $\Delta(Q,\theta)$ is infinite whenever $b_1(Q) \geq 1$. The two theories diverge exactly along axiom (P).
+\end{remark}
+
+We now compute $\Delta(Q, \theta)$ in both cases for the two fundamental quivers.
+
+\begin{example}[Tree case]\label{tree}
+Suppose $Q$ is a tree, so $b_1(Q) = 0$, $\ker I_Q = 0$, and $I_Q$ is injective. Then $\mathcal{K}_Q = \{0\}$ regardless of $(k, m_k)$, and for any $\theta \in \operatorname{Im}(I_Q)$ there is a unique flow $x_\theta := I_Q^{-1}(\theta) \in \map(Q_1, k)$. Thus:
+\begin{itemize}
+    \item \textbf{Ordered case:} $\Delta(Q,\theta) = \{x_\theta\}$ if $x_\theta(\alpha) \geq 0$ for all $\alpha \in Q_1$, and $\varnothing$ otherwise.
+    \item \textbf{Valued case:} $\Delta(Q,\theta) = \{x_\theta\}$ if $v(x_\theta(\alpha)) \geq 0$ for all $\alpha \in Q_1$, and $\varnothing$ otherwise.
+\end{itemize}
+In both cases $\Delta(Q,\theta)$ is either a single point or empty. The tree case is \emph{model-independent}: it is the injectivity of $I_Q$, not the geometry of $m_k$, that forces this dichotomy.
+\end{example}
+
+\begin{example}[Two-vertex quiver]\label{ex:two-arrow}
+Let $Q$ be the quiver with $Q_0 = \{v_0, v_1\}$ and $Q_1 = \{\alpha_1, \alpha_2\}$, both arrows directed from $v_0$ to $v_1$. Fix $c \in k^\times$ and weight $\theta(v_0) = -c$, $\theta(v_1) = c$.
+
+The two spanning trees $T_1 = (Q_0, \{\alpha_1\})$ and $T_2 = (Q_0, \{\alpha_2\})$ give unique flows $x_1 = (c, 0)$ and $x_2 = (0, c)$. Any flow in $I_Q^{-1}(\theta)$ satisfies $x(\alpha_1) + x(\alpha_2) = c$, so writing $u := x(\alpha_1)$:
 \[
-\Delta(Q, \theta) := I_Q^{-1}(\theta) \cap \map(Q_1, \mathcal{O}_v).
+\Delta(Q, \theta) \;=\; \bigl\{\,(u,\; c - u) \;\big|\; u \in m_k,\; c - u \in m_k \,\bigr\}.
 \]
-\end{definition}
-\begin{example}
-In the ordered-field case $k=\mathbb{R}$ \cite{hille2003quivers}, $\Delta(Q, \theta)$ is a convex polytope because $Q$ is acyclic, and its faces correspond to certain spanning subquivers of $Q$. Over a valued field, $I_Q^{-1}(\theta)$ is an affine subspace of $\map(Q_1, k)$ and $\Delta(Q,\theta) = I_Q^{-1}(\theta) \cap \map(Q_1, \mathcal{O}_v)$ is its set of integral flows  $\mathcal{O}_v$. Since $\mathcal{O}_v$ is a ring, $\Delta(Q,\theta)$ is either empty or a coset of the $\mathcal{O}_v$-module $\ker I_Q \cap \map(Q_1, \mathcal{O}_v)$. In positive characteristic, the combinatorial polytope structure is replaced by this module of integral flows.
-\end{example}
 
-
-
-
-\begin{example}{Trees - the zero dimensional case}
-\label{tree}
-Suppose $Q$ is a tree, so  $\ker I_Q = 0$ and  $I_Q$ is injective. Then, exactly as in the ordered-field case, $\Delta(Q,\theta)$
-is \emph{either a single point or empty}, in both settings:
-Indeed, there is a unique flow $x_\theta := I_Q^{-1}(\theta) \in \map(Q_1, k)$
-with input $\theta$ when $\theta$ lies in the image of $I_Q$. We have $\Delta(Q,\theta) = \{x_\theta\}$ if every coordinate of $x_\theta$ is integral, i.e.\ $v\big(x_\theta(\alpha)\big) \geq 0$ for all $\alpha \in Q_1$, and $\Delta(Q,\theta) = \varnothing$ otherwise.
-\end{example}
-
-\begin{example}[One dimensional case]
-\label{ex:two-arrow}
-Let $Q = (Q_0, Q_1)$ be the quiver with vertex set $Q_0 = \{v_0, v_1\}$ and arrow set $Q_1 = \{\alpha_1, \alpha_2\}$, where both arrows have source $v_0$ and target $v_1$. Fix a nonzero $c \in k^\times$ and the weight $\theta \in \map(Q_0, k)$ given by $\theta(v_0) = -c$ and $\theta(v_1) = c$.
-
-The quiver $Q$ has two spanning trees, $T_1 = (Q_0, \{\alpha_1\})$ and $T_2 = (Q_0, \{\alpha_2\})$. Each supports a unique flow with weight $\theta$ and given by:
-\begin{align*}
-x_1 := \Delta(T_1, \theta) = (c,0)
-&&
-x_2 := \Delta(T_2, \theta) = (0,c).
-\end{align*}
-Any flow $x \in I_Q^{-1}(\theta)$ satisfies $x(\alpha_1) + x(\alpha_2) = c$, so
-\begin{align*}
-I_Q^{-1}(\theta)
-=
-\left\{
-\lambda_1 x_1 + \lambda_2 x_2
-\; \Big| \;
-\lambda_1, \lambda_2 \in k, \;
-\lambda_i = x(\alpha_i)c^{-1}, \;
-\lambda_1+\lambda_2 =1
-\right\}
-\end{align*}
-is an affine line in $k^2$. The Delta flow $\Delta(Q, \theta)$ is its intersection with $\map(Q_1, \mathcal{O}_v) = \mathcal{O}_v^2$:
-\begin{align*}
-\Delta(Q,\theta)
-=
-\left\{
-\lambda_1 x_1 + \lambda_2 x_2
-\; \Big| \;
-\lambda_1 c \in \mathcal{O}_v, \;
-\lambda_2 c \in \mathcal{O}_v, \;
-\lambda_1+\lambda_2 =1
-\right\}.
-\end{align*}
-Next, we describe the different cases: In the \emph{ordered-field case}, that is $k = \mathbb{R}$, $\mathcal{O}_v = \mathbb{R}_{\geq 0}$. If $c \geq 0$, the conditions $\lambda_i c \in \mathcal{O}_v$ imply $\lambda_i \geq 0$, so
-\begin{align*}
- \Delta(Q,\theta)
-& =
-\left\{
-\lambda_1 x_1 + \lambda_2 x_2
-\; \Big| \;
-\lambda_i \geq 0, \;
-\lambda_1+\lambda_2 =1
-\right\}
-\\
-&=
+\textbf{Ordered case} ($k = \mathbb{R}$, $m_k = \mathbb{R}_{\geq 0}$): The conditions $u \geq 0$ and $c - u \geq 0$ force $0 \leq u \leq c$. Thus
+\[
+\Delta(Q, \theta) \;=\;
 \begin{cases}
-\text{ConvexHull}\left\{ (c,0), (0,c) \right\}
-& \text{ if } c > 0
-\\ 
-\varnothing & \text{ if } c < 0
+\operatorname{ConvexHull}\!\left\{(c,0),\,(0,c)\right\} & \text{if } c > 0, \\
+\varnothing & \text{if } c < 0.
 \end{cases}
-\end{align*}
-that is a segment in the plane. In the 
-\emph{valued-field case}, such as $k = \mathbb{F}_2((t))$, $\mathcal{O}_v = \mathbb{F}_2[[t]]$, where $v$ is the $t$-adic valuation: writing $u := x(\alpha_1)$, a flow on $Q$ is $(u, c-u)$, and
-\begin{align*}
- \Delta(Q,\theta)
-=
-\left\{
-(u, c-u)
-\; \Big| \;
-u \in \mathcal{O}_v, \;
-c - u \in \mathcal{O}_v
-\right\}.
-\end{align*}
-Because $\mathcal{O}_v$ is a ring, $u \in \mathcal{O}_v$ and $c-u \in \mathcal{O}_v$ hold simultaneously if and only if $u \in \mathcal{O}_v$ and $c \in \mathcal{O}_v$. Hence
-\begin{align*}
-\Delta(Q,\theta) =
-\begin{dcases}
- \mathcal{O}_v, & v(c) \geq 0,\\
-\varnothing, & v(c) < 0.
-\end{dcases}
-\end{align*}
+\]
+This is a compact line segment, a one-dimensional polytope. The module $\mathcal{K}_Q = \{0\}$ (consistent with (P) and acyclicity).
+
+\textbf{Valued case} ($k = \mathbb{F}_2((t))$, $m_k = \mathbb{F}_2[[t]]$, $t$-adic valuation): Since $\mathcal{O}_v$ is a ring, $u \in \mathcal{O}_v$ and $c - u \in \mathcal{O}_v$ hold simultaneously if and only if $u \in \mathcal{O}_v$ and $c \in \mathcal{O}_v$. Hence
+\[
+\Delta(Q, \theta) \;\cong\;
+\begin{cases}
+\mathcal{O}_v & \text{if } v(c) \geq 0, \\
+\varnothing & \text{if } v(c) < 0.
+\end{cases}
+\]
+This is infinite when nonempty: the module $\mathcal{K}_Q = \ker I_Q \cap \mathcal{O}_v^2 = \{(u,-u) : u \in \mathcal{O}_v\} \cong \mathcal{O}_v$ acts freely by translation, reflecting the failure of (P).
+
+In both cases the emptiness test is identical ($\theta \in C_Q \iff c \in m_k$), but the structure of the nonempty fiber diverges sharply: a bounded segment (ordered, axiom (P)) versus an infinite $\mathcal{O}_v$-torsor (valued, axiom (P) fails).
 \end{example}
-\begin{definition}
-Let $P \subset Q$ be a spanning subquiver, that is $P_0 = Q_0$, Let's consider the set of non-negative flows supported on $D_P$, that is
-\[
-D_P = 
- \left\{
- x \in 
-\map(Q_1, k) \, | \,
-\text{
-$x(\alpha) \geq_k 0$ for all $\alpha \in P_1$ and $x(\alpha) = 0$ if $\alpha \notin P_1$}
-\right\}
-\]
-We consider the set off weights $C_P \subset \map(Q_0, k)$ associated to $P$ and defined as
-$C_P:= I_Q(D_p)$, and also the Delta flow associated to $P$ is defined as
-\[
-\Delta(P, \theta) := I_Q^{-1}(\theta) \cap D_P
-\]
-\end{definition}
 
-
-
-
-In the ordered-field case, for each spanning tree $T \subset Q$ the set $\Delta(T, \theta)$ is a singleton when nonempty, and is then a vertex of $\Delta(Q, \theta)$. As $\theta$ crosses the boundary of $C_T$, the polytope $\Delta(Q, \theta)$ changes combinatorially; the cones $C_T$ refine $C_Q$ into a fan, whose codimension-one faces are the \emph{walls} of $C_Q$, and a weight off every wall is called \emph{generic} (see \cite{hille2003quivers}).
-
-Over a valued field the cones $C_P$ and the membership test $\theta \in C_P$ still govern whether $\Delta(P, \theta)$ is nonempty (Example \ref{ex:two-arrow}), but the wall-and-chamber/vertex picture has no direct analogue: when nonempty, $\Delta(Q, \theta)$ is the full $\mathcal{O}_v$-module of integral flows rather than a convex hull of tree points.
+In the ordered-field case, for each spanning tree $T \subset Q$ the set $\Delta(T, \theta)$ is a singleton when nonempty and is a vertex of $\Delta(Q, \theta)$. As $\theta$ crosses the boundary of $C_T$, the polytope $\Delta(Q, \theta)$ changes combinatorially; the cones $C_T$ refine $C_Q$ into a fan whose codimension-one faces are the \emph{walls} of $C_Q$, and a weight off every wall is called \emph{generic} (see \cite{hille2003quivers}). Over a valued field the membership test $\theta \in C_P$ still governs emptiness of $\Delta(P, \theta)$, but the wall-and-chamber picture has no direct analogue: when nonempty, $\Delta(Q, \theta)$ is an infinite $\mathcal{O}_v$-torsor rather than a convex hull of tree points.
 
 \subsection{On graph theory}
 For a quiver $Q$, the underlying undirected graph is denoted $\Gamma_G$. We may suppress stating $\Gamma_Q$ outright if the quiver we are speaking of is clear. \footnote{what will you write instead? $\Gamma$?} The first Betti number of a quiver $Q$ is defined as the first Betti number of $\Gamma_Q$, that is, $|Q_1| - |Q_0| + 1$. By saying an undirected cycle (resp. path) of a quiver $Q$,  we mean a cycle (resp. path) of $\Gamma_Q$. For a subgraph $H \subset \Gamma_Q$, the quiver realized by $H$ is the unique quiver defined by taking $H$ and imposing directions on the edges so it is a subquiver of $Q$. The $2$-core of an \textit{undirected} graph $\Gamma$ is the subgraph induced by the set of vertices included in any nontrivial cycle of $\Gamma$. The $2$-core of a quiver $Q$, denoted $Q_{\text{core}}$, is defined to be the $2$-core of $\Gamma_Q$. Given two subquivers (resp. subgraphs) $R, P$ of quiver (resp. graph) $Q$, the union is the subquiver (resp. subgraph) $R \cup P := (R_0 \cup P_0, R_1 \cup P_1)$ where $R_i$ and $P_i$ are considered subsets of $Q_i$, $i = 1, 2$. Similarly, $R \cap P := (R_0 \cap P_0, R_1 \cap P_1)$. If $H \subset G$ are graphs or quivers, the subtraction $G - H$ is the (possibly empty) subgraph of $G$ obtained by deleting all vertices of $H$ from $G$ as well as any edges incident to these deleted vertices. An undirected path decomposition of a graph $H$ is a collection of paths $p^1, \ldots, p^k$ \footnote{what is a path ? What are this $p_i^k$ ? a set of edges that is not disconnnected?} such that $\cup_ip^i = H$ and for any $i \neq j$, $p^i_0 \cap p^j_0 = \{v\}$\footnote{Does the subindex $_0$ has any meaning?} for some vertex $v$ in $H$. An undirected path decomposition of a quiver $Q$ is an undirected path decomposition of $\Gamma_Q$.

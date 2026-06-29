@@ -1,4 +1,4 @@
-\documentclass[11pt]{amsart}
+\documentclass[12pt]{amsart}
 
 \usepackage[all]{xy}
 \usepackage{amsmath}
@@ -7,7 +7,7 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 %\usepackage{enumerate,enaumitem}
-%\usepackage{xcolor}
+\usepackage{xcolor}
 \usepackage{fullpage}
 \usepackage[draft]{graphicx}
 \usepackage{url}
@@ -24,8 +24,8 @@
 \usepackage{comment}
 \usetikzlibrary{arrows}
 \usetikzlibrary{decorations.markings}
-%\usepackage{quiver} % quiver.sty not available; tikz-cd already loaded above
-\usepackage{changepage}
+\usepackage{quiver} % quiver.sty not available; tikz-cd already loaded above
+%\usepackage{changepage}
 
 
 \theoremstyle{plain}
@@ -54,6 +54,7 @@
 \DeclareMathOperator{\Cir}{Cir}
 \DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\map}{Map}
 \DeclareMathOperator{\aff}{aff}
 
 \renewcommand{\hom}{\Hom}
@@ -90,39 +91,184 @@ Throughout the paper, we will prove statements for a subgroup $G \leq \aut(Q)$. 
 \end{theorem}
 
 \section{Preliminaries}
-We will now briefly define the necessary objects used throughout this paper. A more in-depth introduction to the study of quivers and polytopes can be found in the three papers mentioned above, and especially Hille's. By polytope, we mean convex polytopes. Additional information regarding polytopes can be found in \cite{10.5555/285869}.
+We will now briefly define the necessary objects used throughout this paper. 
 
-A quiver $Q=(Q_0,Q_1)$ is a finite, directed multigraph with vertex set $Q_0$ and edge set $Q_1$. We assume throughout that $Q$ is connected and acyclic, that is, it has no directed cycles. For an edge $\alpha \in Q_1$ we denote its source and target by $\alpha^-$ and $\alpha^+$, respectively. A weight of $Q$ is a mapping $\theta \in \hom(Q_0, \Z)$. A flow on $Q$ is a mapping $x \in \hom(Q_1, \Z)$. The incidence map, or flow map, of $Q$ is
-\begin{align*}
-I_Q : &\hom(Q_1, \Z) \longrightarrow \hom(Q_0, \Z),\\
-&\theta(v) = \sum_{\alpha^+ \,=\,v} x(\alpha) - \sum_{\alpha^-\,=\,v} x(\alpha) \quad \quad (v \in Q_0),
-\end{align*}
- and associates to a flow $x$ a weight
- $\theta$. If we want to emphasize that we are mapping a flow $x$, we may write $I_Q(x)(v)$ instead of $\theta(v)$. We note that $\hom(Q_1, \Z) \cong \Z^{Q_1}$ as $\Z$-modules.
-
-For a fixed $\theta \in \hom(Q_0, \Z)$, the space of flows with input $\theta$ is the affine subspace $I_Q^{-1}(\theta)$.
-Then, the flow polytope produced by $Q$ with weight $\theta$ is defined as
-\[
-\Delta(Q, \theta) := I_Q^{-1}(\theta) \cap \hom(Q_1, \Z_{\geq 0}).
-\]
-It is a convex polytope whose faces correspond to certain spanning subquivers of $Q$. 
-
-Each polytope $\Delta$ has a geometric symmetry group, which we denote $\aut(\Delta)$. It consists of all the isometries of the ambient space that map the polytope onto itself. We call elements of this group a geometric automorphism, or automorphism for short if it is clear we are speaking of the polytope. The set of these isometries clearly form a group. 
-
-To identify two flow polytopes, we use throughout this paper the notion of integral-affine equivalence, as done in \cite{domokos2016equations} and \cite{bruns2000semigroup}.
-
+\subsection{On polytopes}
+To identify two polytopes, we use throughout this paper the notion of integral-affine equivalence, as done in \cite{domokos2016equations} and \cite{bruns2000semigroup}. Let's recall that if $V$ is a vector space, then its group of affine transformations is given by 
+$\aff(V) = V \rtimes GL(V)$.
 \begin{definition}
     Two polytopes $\Delta_1$ and $\Delta_2$ are integral-affinely isomorphic if there exists an affine isomorphism $\varphi : \aff(\Delta_1) \longrightarrow \aff(\Delta_2)$ such that $\varphi$ restricts to a surjection on $\Delta_1$ to $\Delta_2$. If $\Delta_1$ is integral-affinely isomorphic to $\Delta_2$, then we write $\Delta_1 \cong \Delta_2$.
 \end{definition}
 
-While there are several isomorphisms one can choose between polytopes, this one is used in \cite{domokos2016equations} and we will take advantage of some results that were shown.
 
-We will now focus on the weight space. Associated to any spanning subquiver $P \subseteq Q$ is the so-called cone of weights $C_P \subset \hom(Q_0, \Z)$ which is the image of all flows $x \in \hom(Q_1, \Z)$ under $I_Q$ such that $x(\alpha) \geq 0$ for all $\alpha \in P_1$ and $x(\alpha) = 0$ for all $\alpha \not\in P_1$. If $P = Q$, we get that $C_Q = I_Q(\hom(Q_1, \Z_{\geq0}))$. By definition, $C_P$ is the set of weights $\theta \in \Hom(Q_0, \Z)$ such that the associated polytope $\Delta(P, \theta)$ is not empty. Recall for each spanning tree $T \subset Q$, $\Delta(T, \theta)$ is a singular point if it is nonempty, in which case it is a vertex of $\Delta(Q, \theta)$. Thus, upon varying $\theta$ between the inside and outside of $C_T$, the polytope $\Delta(Q, \theta)$ changes combinatorially. Hille thus calls the supporting hyperplanes of each $C_T$ walls of $C_Q$. When $\theta$ does not lie directly on any such wall of $C_Q$, the weight is called generic. For more information on the behavior of the walls and chambers, see \cite{hille2003quivers}.
 
-We conclude with some necessary graph theory. For a quiver $Q$, the underlying undirected graph is denoted $\Gamma_G$. We may suppress stating $\Gamma_Q$ outright if the quiver we are speaking of is clear. The first Betti number of a quiver $Q$ is defined as the first Betti number of $\Gamma_Q$, that is, $|Q_1| - |Q_0| + 1$. By saying an undirected cycle (resp. path) of a quiver $Q$,  we mean a cycle (resp. path) of $\Gamma_Q$. For a subgraph $H \subset \Gamma_Q$, the quiver realized by $H$ is the unique quiver defined by taking $H$ and imposing directions on the edges so it is a subquiver of $Q$. The $2$-core of an \textit{undirected} graph $\Gamma$ is the subgraph induced by the set of vertices included in any nontrivial cycle of $\Gamma$. The $2$-core of a quiver $Q$, denoted $Q_{\text{core}}$, is defined to be the $2$-core of $\Gamma_Q$. Given two subquivers (resp. subgraphs) $R, P$ of quiver (resp. graph) $Q$, the union is the subquiver (resp. subgraph) $R \cup P := (R_0 \cup P_0, R_1 \cup P_1)$ where $R_i$ and $P_i$ are considered subsets of $Q_i$, $i = 1, 2$. Similarly, $R \cap P := (R_0 \cap P_0, R_1 \cap P_1)$. If $H \subset G$ are graphs or quivers, the subtraction $G - H$ is the (possibly empty) subgraph of $G$ obtained by deleting all vertices of $H$ from $G$ as well as any edges incident to these deleted vertices. An undirected path decomposition of a graph $H$ is a collection of paths $p^1, \ldots, p^k$ such that $\cup_ip^i = H$ and for any $i \neq j$, $p^i_0 \cap p^j_0 = \{v\}$ for some vertex $v$ in $H$. An undirected path decomposition of a quiver $Q$ is an undirected path decomposition of $\Gamma_Q$.
+\begin{definition}
+\label{def:auto_polytope}
+Let $\Delta \subset V$ be a polytope. We define its automorphism group as 
+\begin{align*}
+    \aut(\Delta) = \left\{
+g \in \aff(V) \, | \, 
+g\cdot \Delta = \Delta
+    \right\}
+\end{align*}
+ We call elements of this group a geometric automorphism, or automorphism for short if it is clear we are speaking of the polytope.  
+\end{definition}
+While there are several equivalence relations among polytopes. We will use Definition \ref{def:auto_polytope} because it's the one used in \cite{domokos2016equations} and we will take advantage of some of their results. 
+
+
+\subsection{On quivers and their representations}  
+
+A quiver $Q=(Q_0,Q_1)$ is a finite, directed multigraph with vertex set $Q_0$ and edge set $Q_1$. We assume throughout that $Q$ is connected and acyclic, that is, it has no directed cycles. For an edge $\alpha \in Q_1$ we denote its source and target by $\alpha^-$ and $\alpha^+$, respectively. 
+\begin{definition}
+Let $k$ be a field and let $m_k \subset k$ be a given fixed additive submonoid, that is $0_k \in m_k$ and $m_k$ is closed under addition. 
+We say that an element $z \in k$ is non-negative if $z \in m_k$. In an abuse of notation, we denote it as $z \geq_k 0$ or as $z \geq 0$ if $k = \mathbb{R}$ and $m_k = \mathbb{R}_{\geq 0}$.
+\end{definition}
+\begin{example}
+The standard theory on \cite{hille2003quivers} can be recovered by using $k = \mathbb{R}$ and $m_k = \mathbb{R}_{\geq 0}$. Other possible cases are either
+$k =  F_p \left( \left(t \right) \right)$ with $m_k = F_p [[ t ]]$ or 
+$k=\overline{\mathbb{F}}_p$ with $m_k = \mathbb{F}_p$.
+\end{example}
+\begin{definition}
+ A weight of $Q$ is a mapping $\theta \in \map(Q_0, k)$. A flow on $Q$ is a mapping $x \in \map(Q_1, k)$. The incidence map, or flow map,  $I_Q : \map(Q_1, k) \longrightarrow \map(Q_0, k)$ of $Q$ is
+given by
+\begin{align*}
+\theta:=I_Q(x)
+ &&
+\theta(v) = \sum_{\alpha^+ \,=\,v} x(\alpha) - \sum_{\alpha^-\,=\,v} x(\alpha) \quad \quad (v \in Q_0),
+\end{align*}
+ and associates to a flow $x$ a weight
+ $\theta$. If we want to emphasize that we are mapping a flow $x$, we may write $I_Q(x)(v)$ instead of $\theta(v)$. 
+\end{definition}
+
+
+\begin{definition}
+For a fixed $\theta \in \map(Q_0, k)$, the space of flows with input $\theta$ is the affine subspace $I_Q^{-1}(\theta)$.
+Then, the \emph{Delta flow} associated with $Q$ and the weight $\theta$ is defined as
+\[
+\Delta(Q, \theta) := I_Q^{-1}(\theta) \cap \map(Q_1, m_k).
+\]
+\end{definition}
+\begin{example}
+  In the case $k=\mathbb{R}$ \cite{hille2003quivers}, it is known that $\Delta(Q, \theta)$ a convex polytope due to the fact that $Q$ is acyclic. Moreover, the faces of $\Delta(Q, \theta)$ correspond to certain spanning subquivers of $Q$.   
+\end{example}
+
+
+
+
+
+
+\begin{example}
+Let $Q = (Q_0, Q_1)$ be the quiver defined by the vertex set $Q_0 = \{v_0, v_1\}$ and the arrow set $Q_1 = \{\alpha_1, \alpha_2\}$, where both arrows have source $v_0$ and target $v_1$. Next, we 
+describe its Delta flow for an non negative weight $\theta = (-c,c)$ with $c$ in $m_k$.
+The quiver $Q$ has two spanning trees:
+$T_1 = (Q_0, \{\alpha_1\})$ and 
+$T_2 = (Q_0, \{\alpha_1\})$. 
+We consider a non-zero weight vector $\theta  \in \text{Map}(Q_0, k)$, so
+$\theta(v_0) = -c$ and $\theta(v_1) = c$ for some non-zero element $c \in k$. 
+
+In this case, each of the spanning trees $T_i$ supports a non-negative flow, that is  $\Delta(T_1, \theta)$ and $\Delta(T_2, \theta)$ are non-empty an equal to an $x_i$. Then, 
+\begin{align*}
+x_1 := \Delta(T_1, \theta) = (c,0)
+&&
+x_2 := \Delta(T_3, \theta) = (0,c)
+&& 
+c \in m_k
+\end{align*}
+Any flow
+$x \in I_Q^{-1}(\theta)$ satisfies $x(\alpha_1) + x(\alpha_2) = c$. Therefore, 
+\begin{align*}
+I_Q^{-1}(\theta)
+=
+\left\{
+x \in k^2
+\; \Big| \;
+x = \lambda_1x_1 + \lambda_2 x_2, \;
+\lambda_i = x(\alpha_i)c^{-1}, \;
+\lambda_1+\lambda_2 =1
+\right\}
+\end{align*}
+By definition, the Delta flow  $\Delta(Q, \theta)$ is obtained by intersecting this affine line with the submonoid module $\text{Map}(Q_1, m_k) = m_k^2$.  Therefore, 
+\begin{align*}
+\Delta(Q,\theta)
+=
+\left\{
+\lambda_1x_1 + \lambda_2 x_2,
+\; \Big| \;
+\lambda_ic \in m_k, \;
+\lambda_1+\lambda_2 =1
+\right\}
+\end{align*}
+In the classical case, $k = \mathbb{R}, m_k = \mathbb{R}_{\geq 0}$, we have $c >0$.
+and the condition 
+Since $c > 0$, the conditions $\lambda_ic >0$ forces $\lambda_i \geq 0$. This yield
+\begin{align*}
+ \Delta(Q,\theta)
+=
+\left\{
+\lambda_1x_1 + \lambda_2 x_2,
+\; \Big| \;
+\lambda_i \geq 0, \;
+\lambda_1+\lambda_2 =1
+\right\}
+=\text{ConvexHull}\left\{ (c,0), (0,c)
+\right\}
+\end{align*}   
+On the other hand if $k = \mathbb{F}_2((t))$ and $m_k = \mathbb{F}_2[[t]]$, 
+The conditions require $\lambda_1 c \in \mathbb{F}_2[[t]]$ and $\lambda_2 c \in \mathbb{F}_2[[t]]$. Because $\text{char}(k)=2$, we have $\lambda_2 = 1 + \lambda_1$, we have 
+\begin{align*}
+ \Delta(Q,\theta)
+&=
+\left\{
+\lambda_1x_1 + (1+\lambda_1) x_2
+\; \Big| \;
+\lambda_i \geq 0, \;
+\lambda_1+\lambda_2 =1
+\right\}
+\\
+&=
+(0,c)+
+\left\{
+(\lambda_1c,\lambda_1c)
+\; \Big| \;
+u \in 
+\mathbb{F}_2[[t]]
+\right\}
+\\
+&= 
+\mathbb{F}_2[[t]]
+\end{align*} 
+In this case $\lambda_i$ maybe not be in $m_k$. For example, if $c =t$, then $\lambda_1 = t^{-1}$ is valid.
+\end{example}
+\begin{definition}
+Let $P \subset Q$ be a spanning subquiver, that is $P_0 = Q_0$, Let's consider the set of non-negative flows supported on $D_P$, that is
+\[
+D_P = 
+ \left\{
+ x \in 
+\map(Q_1, k) \, | \,
+\text{
+$x(\alpha) \geq_k 0$ for all $\alpha \in P_1$ and $x(\alpha) = 0$ if $\alpha \notin P_1$}
+\right\}
+\]
+The cone of weights $C_P \subset \map(Q_0, k)$ associated to $P$ is defined as
+$C_P:= I_Q(D_p)$, and the polytope associated to $P$ is defined as
+\[
+\Delta(P, \theta) := I_Q^{-1}(\theta) \cap D_P
+\]
+\end{definition}
+
+Recall for each spanning tree $T \subset Q$, $\Delta(T, \theta)$ is a singular point if it is nonempty, in which case it is a vertex of $\Delta(Q, \theta)$. Thus, upon varying $\theta$ between the inside and outside of $C_T$, the polytope $\Delta(Q, \theta)$ changes combinatorially. \footnote{Why? I imagine that if I am a triangle, then I can lose a vertex, but then to also get another one.}
+
+Hille thus calls the supporting hyperplanes of each $C_T$ walls of $C_Q$. \footnote{I dont think it is true. Can you give the part of Hille's paper where this is defined}
+When $\theta$ does not lie directly on any such wall of $C_Q$, the weight is called generic. For more information on the behavior of the walls and chambers, see \cite{hille2003quivers}.
+
+\subsection{On graph theory}
+For a quiver $Q$, the underlying undirected graph is denoted $\Gamma_G$. We may suppress stating $\Gamma_Q$ outright if the quiver we are speaking of is clear. \footnote{what will you write instead? $\Gamma$?} The first Betti number of a quiver $Q$ is defined as the first Betti number of $\Gamma_Q$, that is, $|Q_1| - |Q_0| + 1$. By saying an undirected cycle (resp. path) of a quiver $Q$,  we mean a cycle (resp. path) of $\Gamma_Q$. For a subgraph $H \subset \Gamma_Q$, the quiver realized by $H$ is the unique quiver defined by taking $H$ and imposing directions on the edges so it is a subquiver of $Q$. The $2$-core of an \textit{undirected} graph $\Gamma$ is the subgraph induced by the set of vertices included in any nontrivial cycle of $\Gamma$. The $2$-core of a quiver $Q$, denoted $Q_{\text{core}}$, is defined to be the $2$-core of $\Gamma_Q$. Given two subquivers (resp. subgraphs) $R, P$ of quiver (resp. graph) $Q$, the union is the subquiver (resp. subgraph) $R \cup P := (R_0 \cup P_0, R_1 \cup P_1)$ where $R_i$ and $P_i$ are considered subsets of $Q_i$, $i = 1, 2$. Similarly, $R \cap P := (R_0 \cap P_0, R_1 \cap P_1)$. If $H \subset G$ are graphs or quivers, the subtraction $G - H$ is the (possibly empty) subgraph of $G$ obtained by deleting all vertices of $H$ from $G$ as well as any edges incident to these deleted vertices. An undirected path decomposition of a graph $H$ is a collection of paths $p^1, \ldots, p^k$ \footnote{what is a path ? What are this $p_i^k$ ? a set of edges that is not disconnnected?} such that $\cup_ip^i = H$ and for any $i \neq j$, $p^i_0 \cap p^j_0 = \{v\}$\footnote{Does the subindex $_0$ has any meaning?} for some vertex $v$ in $H$. An undirected path decomposition of a quiver $Q$ is an undirected path decomposition of $\Gamma_Q$.
 
 \section{Quivers with Invariant Weight}
-\noindent For a quiver $Q$ with underlying directed multigraph $\Gamma$, we define $\aut(Q) := \aut(\Gamma)$, that is, we are interested in the automorphisms of $Q$ preserving vertex adjacency, edge count, and edge direction. This means an automorphism $g \in \aut(Q)$ is a pair of bijections $(g_0 : Q_0 \to Q_0, \;g_1 : Q_1 \to Q_1)$ such that for any edge $\alpha \in Q_1$, $g_1(\alpha)^+ = g_0(\alpha^+)$ and $g_1(\alpha)^- = g_0(\alpha^-)$. As $\aut(Q)$ is a group, we can speak about the action of an automorphism $g \in \aut(Q)$ on $Q$ in the obvious way. Namely, for $g \in \aut(Q)$ we define $g \cdot Q : \aut(Q) \times Q_0 \sqcup Q_1 \longrightarrow Q_0 \sqcup Q_1$ by 
+\noindent For a quiver $Q$ with underlying directed multigraph $\Gamma$, we define $\aut(Q) := \aut(\Gamma)$, that is, we are interested in the automorphisms of $Q$ preserving vertex adjacency, edge count, and edge direction.\footnote{Does every element in $\aut(\Gamma)$  preserve direction? I am inclined to think it is not true and so $\aut(Q)$ cannot be defined to be  $\aut(\Gamma)$. Maybe the subgroups that preserve direction of each edge?  }
+
+This means an automorphism $g \in \aut(Q)$ is a pair of bijections $(g_0 : Q_0 \to Q_0, \;g_1 : Q_1 \to Q_1)$ such that for any edge $\alpha \in Q_1$, $g_1(\alpha)^+ = g_0(\alpha^+)$ and $g_1(\alpha)^- = g_0(\alpha^-)$. As $\aut(Q)$ is a group, we can speak about the action of an automorphism $g \in \aut(Q)$ on $Q$ in the obvious way. Namely, for $g \in \aut(Q)$ we define $g \cdot Q : \aut(Q) \times Q_0 \sqcup Q_1 \longrightarrow Q_0 \sqcup Q_1$ by 
 \[
 g \cdot x = \begin{dcases}
     g_0(x), &x \in Q_0 \\
@@ -198,7 +344,7 @@ The above ideas were utilized in two examples in \cite{hille2003quivers}, and in
 
 \begin{figure} 
     \centering
-    \includegraphics[width=0.4\linewidth]{d+1-quiv.png}
+ \includegraphics[width=0.4\linewidth]{d+1-quiv.png}
     \caption{}
     \label{d-quiv}
 \end{figure}

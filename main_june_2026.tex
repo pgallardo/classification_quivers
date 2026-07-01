@@ -102,8 +102,7 @@ The standard theory developed in
 Let $k$ be a field and $m_k \subseteq k$ a \emph{sub-semiring}, that is, a subset satisfying $0, 1 \in m_k$ and closed under addition and multiplication.  We say that $z \in k$ is \emph{admissible} if $z \in m_k$. 
 \end{definition}
 \begin{example} We will see that the theory falls into three regimes depending on the
-\emph{symmetric part} $U := m_k \cap (-m_k)$, the largest subring contained in
-$m_k$.
+\emph{symmetric part} $U := m_k \cap (-m_k)$. 
 \begin{itemize}
 \item
 \emph{The pointed case:}
@@ -146,7 +145,7 @@ If we wish to emphasize the flow $x$, we write $I_Q(x)(v)$ in place of $\theta(v
 \end{definition}
 
 \begin{definition}
-For an field $k$, sub-semiring $m_k \subset k$, a quiver $Q$, and a weight $\theta \in \map(Q_0, k)$, the \emph{set of admissible flows} associated to $Q$ and $\theta$ is
+For a field $k$, sub-semiring $m_k \subset k$, a quiver $Q$, and a weight $\theta \in \map(Q_0, k)$, the \emph{set of admissible flows} associated to $Q$ and $\theta$ is
 \[
 \Delta(Q, \theta) \;:=\; I_Q^{-1}(\theta) \;\cap\; \map(Q_1, m_k).
 \]
@@ -161,93 +160,234 @@ The \emph{weight cone} of $P$ is $C_P := I_Q(D_P) \subseteq \map(Q_0, k)$, and t
 By definition, $\theta \in C_Q := I_Q(\map(Q_1, m_k))$ if and only if $\Delta(Q, \theta) \neq \varnothing$.
 \end{definition}
 
-Let $G$ be a group, we recall that a non-empty set $X$ is called a torsor if $X$ is equipped with a left (or right) $G$-action, $\cdot: G \times X \to X$, such that it's  free and transitive. 
+Let $G$ be a group, we recall that a non-empty set $X$ is called a torsor if $X$ is equipped with a left (or right) $G$-action, $\cdot: G \times X \to X$, such that is free and transitive. 
+
 \begin{lemma}\label{lem:translation}
-The $m_k$-submodule $\mathcal{K}_Q := \ker I_Q \cap \map(Q_1, m_k)$ acts on $\Delta(Q, \theta)$ by translation: if $x \in \Delta(Q, \theta)$ and $y \in \mathcal{K}_Q$, then $x + y \in \Delta(Q, \theta)$. Therefore, $\Delta(Q, \theta)$ is either empty or a torsor for $\mathcal{K}_Q$.
+The set $\mathcal{K}_Q := \ker I_Q \cap \map(Q_1, m_k)$ is a commutative monoid
+under addition that acts on $\Delta(Q,\theta)$ by translation: if
+$x \in \Delta(Q,\theta)$ and $y \in \mathcal{K}_Q$, then
+$x + y \in \Delta(Q,\theta)$. Moreover:
+\begin{itemize}
+\item[(i)] in the pointed case, $\mathcal{K}_Q = \{0\}$;
+\item[(ii)] in the non-pointed case, $\mathcal{K}_Q$ is an $m_k$-submodule of
+$\map(Q_1, m_k)$, and $\Delta(Q,\theta)$ is either empty or a torsor for
+$(\mathcal{K}_Q,+)$;
+\item[(iii)] in the mildly-pointed case, $\mathcal{K}_Q$ is a commutative monoid
+that acts freely on $\Delta(Q,\theta)$.
+\end{itemize}
 \end{lemma}
 
 \begin{proof}
-Since $m_k$ is closed under addition, $x(\alpha) + y(\alpha) \in m_k$ for all $\alpha \in Q_1$. Since $I_Q$ is linear, $I_Q(x + y) = I_Q(x) + I_Q(y) = \theta + 0 = \theta$. Hence $x + y \in \Delta(Q, \theta)$.
+We first argue that the action is well defined and that $\mathcal{K}_Q$ is a monoid. Let $x \in \Delta(Q,\theta)$ and
+$y \in \mathcal{K}_Q$. Since $m_k$ is closed under addition,
+$(x+y)(\alpha) = x(\alpha) + y(\alpha) \in m_k$ for every $\alpha \in Q_1$, so
+$x + y \in \map(Q_1, m_k)$. As $I_Q$ is $k$-linear and $I_Q(y) = 0$, we get
+$I_Q(x+y) = I_Q(x) + I_Q(y) = \theta + 0 = \theta$, hence
+$x + y \in \Delta(Q,\theta)$. Likewise $0 \in \mathcal{K}_Q$ and, for
+$y, y' \in \mathcal{K}_Q$, we have $y + y' \in \map(Q_1, m_k)$ and
+$I_Q(y+y') = 0$, so $\mathcal{K}_Q$ is closed under addition and contains $0$.
+Thus $(\mathcal{K}_Q,+)$ is a commutative monoid acting on $\Delta(Q,\theta)$ by
+$y \cdot x := x + y$.
+
+Next, we show each of the cases:
+
+\medskip
+\noindent\emph{(i) Pointed case.}
+First note that in a pointed semiring a vanishing finite sum of admissible
+elements is identically zero: if $a_1,\dots,a_n \in m_k$ satisfy
+$a_1 + \cdots + a_n = 0$, then
+$a_1 = -(a_2 + \cdots + a_n) \in m_k \cap (-m_k) = U = \{0\}$, so $a_1 = 0$, and
+the claim follows by induction on $n$.
+
+Let $y \in \mathcal{K}_Q$. Since $Q$ is finite and acyclic, fix an
+ordering $v_1 < v_2 < \cdots < v_n$ of $Q_0$ such that $\alpha^- < \alpha^+$ for
+every $\alpha \in Q_1$. We prove by induction on $i$ that $y(\alpha) = 0$ for
+every arrow $\alpha$ with source $\alpha^- = v_i$. The balance condition
+$I_Q(y)(v_i) = 0$ reads
+\[
+  \sum_{\alpha^+ = v_i} y(\alpha) \;=\; \sum_{\alpha^- = v_i} y(\alpha).
+\]
+Every incoming arrow $\alpha$ at $v_i$ has source $\alpha^- = v_j$ with $j < i$,
+so by the induction hypothesis the left-hand side vanishes (it is empty when
+$v_i$ is a source, in particular for $i = 1$). Hence
+$\sum_{\alpha^- = v_i} y(\alpha) = 0$ is a vanishing sum of elements of $m_k$,
+and by the previous claim each outgoing term $y(\alpha) = 0$. So $y = 0$ and $\mathcal{K}_Q = \{0\}$.
+
+\medskip
+\noindent\emph{(ii) Non-pointed case.}
+Here $U = m_k \cap (-m_k) = m_k$, so $m_k$ is a subring of $k$ and $\map(Q_1, m_k)$ is an $m_k$-module, $\ker I_Q$ is a $k$-subspace,
+and $\mathcal{K}_Q = \ker I_Q \cap \map(Q_1, m_k)$ is an $m_k$-submodule; in
+particular $(\mathcal{K}_Q,+)$ is an abelian group.
+
+Assume $\Delta(Q,\theta) \neq \varnothing$. The translation action is
+\emph{free}: if $x + y = x$ then $y = 0$ by additive cancellation in the
+$k$-vector space $\map(Q_1,k)$. It is \emph{transitive}: given
+$x, x' \in \Delta(Q,\theta)$, put $y := x' - x$. Then
+$I_Q(y) = I_Q(x') - I_Q(x) = \theta - \theta = 0$, and since $m_k$ is a ring it
+is closed under subtraction, so $y(\alpha) = x'(\alpha) - x(\alpha) \in m_k$ for
+all $\alpha$. Hence $y \in \mathcal{K}_Q$ and $x + y = x'$. Therefore
+$\Delta(Q,\theta)$ is a torsor for $(\mathcal{K}_Q,+)$.
+
+\medskip
+\noindent\emph{(iii) Mildly-pointed case.}
+By the first paragraph $(\mathcal{K}_Q,+)$ is a commutative monoid acting by
+translation. The action is \emph{free} in the monoidal sense: for fixed
+$x \in \Delta(Q,\theta)$, if $x + y = x + y'$ with $y, y' \in \mathcal{K}_Q$,
+then additive cancellation in $\map(Q_1,k)$ gives $y = y'$. In general $\mathcal{K}_Q$ is nor a group here, since $m_k$ is not closed under subtraction, so the
+action need not be transitive.
 \end{proof}
 
 
+
+
 \subsection{Key examples:}
-Next, we calculate the delta flow space for the so called zero and one dimension case, i.e, $b_1(Q) \leq 1$. These examples are the base for the general description in the following section. 
+Next, we calculate the set of admissible flows for quivers $Q$ with $b_1(Q) \leq 1$, that is the so called zero and one dimension case.  These examples are the base for the general description in the following section. 
 
 \begin{example}[Tree case]\label{tree}
-Suppose $Q$ is a tree, so $b_1(Q) = 0$, $\ker I_Q = 0$, and $I_Q$ is injective.
-Then $\mathcal{K}_Q = \{0\}$ regardless of $(k, m_k)$, and for any
-$\theta \in \operatorname{Im}(I_Q)$ there is a unique flow
-$x_\theta := I_Q^{-1}(\theta) \in \map(Q_1, k)$. Hence $\Delta(Q,\theta)$ is the
-singleton $\{x_\theta\}$ when $x_\theta(\alpha) \in m_k$ for all
-$\alpha \in Q_1$, and is empty otherwise. Spelled out in the three regimes:
-\begin{itemize}
-    \item \emph{Ordered case:} $\Delta(Q,\theta) = \{x_\theta\}$ if
-    $x_\theta(\alpha) \geq 0$ for all $\alpha \in Q_1$, and $\varnothing$
-    otherwise.
-    \item \emph{Valued case:} $\Delta(Q,\theta) = \{x_\theta\}$ if
-    $v(x_\theta(\alpha)) \geq 0$ for all $\alpha \in Q_1$, and $\varnothing$
-    otherwise.
-    \item \emph{Intermediate case} $(k = \mathbb{R}((t))$,
-    $m_k = \rho^{-1}(\mathbb{R}_{\geq 0}))$\textbf{:}
-    $\Delta(Q,\theta) = \{x_\theta\}$ if, for all $\alpha \in Q_1$,
+Suppose $Q$ is a tree, so $b_1(Q) = |Q_1| - |Q_0| + 1 = 0$. Then $\ker I_Q = 0$
+and $I_Q$ is injective, so $T = Q$ is its own spanning tree and there is a unique
+$k$-flow
+\[
+  x^T_\theta := I_Q^{-1}(\theta) \in \map(Q_1, k)
+  \qquad\text{for every } \theta \in \operatorname{Im}(I_Q).
+\]
+Because $\ker I_Q = 0$, we have $\mathcal{K}_Q = \ker I_Q \cap \map(Q_1,m_k) = \{0\}$
+\emph{for every} $m_k \subset k$. By the definition of the admissible flow space,
+\begin{align*}
+  \Delta(Q,\theta)
+  &= I_Q^{-1}(\theta) \cap \map(Q_1, m_k)
+  \\
+  & =
+  \begin{cases}
+    \{x^T_\theta\} & \text{if } x^T_\theta(\alpha) \in m_k \text{ for all } \alpha \in Q_1,\\[2pt]
+    \varnothing    & \text{otherwise.}
+  \end{cases}
+\end{align*}
+The membership $x^T_\theta(\alpha) \in m_k$ depends on the description of
+$m_k$. For example,  if $k$ is ordered and $m_k = k_{\geq 0}$, it holds that $z \in m_k
+    \iff z \geq 0$, so
     \[
-      v\big(x_\theta(\alpha)\big) \geq 0
-      \quad\text{and}\quad
-      \rho\big(x_\theta(\alpha)\big) = x_\theta(\alpha)(0) \geq 0,
+      \Delta(Q,\theta) =
+      \begin{cases}
+        \{x^T_\theta\} & \text{if } x^T_\theta(\alpha) \geq 0 \text{ for all } \alpha \in Q_1,\\
+        \varnothing    & \text{otherwise.}
+      \end{cases}
     \]
-    i.e.\ each coordinate is integral with non-negative residue, and
-    $\varnothing$ otherwise.
-\end{itemize}
+On the other hand, if $m_k = \mathcal{O}_v$ a valuation ring then
+    $z \in m_k \iff v(z) \geq 0$, so
+    \[
+      \Delta(Q,\theta) =
+      \begin{cases}
+        \{x^T_\theta\} & \text{if } v\big(x^T_\theta(\alpha)\big) \geq 0 \text{ for all } \alpha \in Q_1,\\
+        \varnothing    & \text{otherwise.}
+      \end{cases}
+    \]
+Finally, in the \emph{mildly-pointed example} given by $k = \mathbb{R}((t))$ and
+$m_k = \rho^{-1}(\mathbb{R}_{\geq 0})$), it holds that $z \in m_k \iff v(z) \geq 0$ and $\rho(z) = z(0) \geq 0$, so
+    \[
+      \Delta(Q,\theta) =
+      \begin{cases}
+        \{x^T_\theta\} & \text{if, for all } \alpha \in Q_1,\
+        v\big(x^T_\theta(\alpha)\big) \geq 0 \ \text{ and }\ \rho\big(x^T_\theta(\alpha)\big) \geq 0,\\
+        \varnothing    & \text{otherwise,}
+      \end{cases}
+    \]
 \end{example}
 
 
-\begin{example}[Two-vertex quiver]\label{ex:two-arrow}
-Let $Q$ be the quiver with $Q_0 = \{v_0, v_1\}$ and $Q_1 = \{\alpha_1, \alpha_2\}$, both arrows directed from $v_0$ to $v_1$. Fix $c \in k^\times$ and weight $\theta(v_0) = -c$, $\theta(v_1) = c$.
+\begin{example}[Two-vertex, two-arrow quiver]\label{ex:two-arrow}
+Let $Q$ have $Q_0 = \{v_0, v_1\}$ and $Q_1 = \{\alpha_1, \alpha_2\}$, both arrows
+directed $v_0 \to v_1$. So, here $b_1(Q) = 1$. Fix $c \in k^\times$ and the weight $\theta$, so
+$\theta(v_0) = -c$, $\theta(v_1) = c$. 
+We select a  spanning tree $T$, say $T= (Q_0, \{\alpha_1\})$. The unique $T$-supported flow
+with $I_Q(x) = \theta$ is
+$ x^T_\theta = (c, 0)$. We can see that 
+$\ker I_Q$ is one dimensional and generated by  fundamental cycle associated to the
+single non-tree arrow $\alpha_2$: $z_{\alpha_2} = (-1, 1) \in \ker I_Q$. 
+Writing a general element of
+$I_Q^{-1}(\theta)$ as $x^T_\theta + s\,z_{\alpha_2} = (c - s,\, s)$ with $s \in k$,
+it holds that
+\[
+  \Delta(Q,\theta)
+  = \bigl\{\, (c-s,s) \;:\; \ c - s \in m_k,\ s \in m_k \,\bigr\}.
+\]
+\medskip
+Let's consider $k = \mathbb{R}$, $m_k = \mathbb{R}_{\geq 0}$.
+Admissibility requires $s \geq 0$ and $c - s \geq 0$, that is \ $0 \leq s \leq c$.
+Since $m_k$ is pointed, $\mathcal{K}_Q = 
+\{0\}$. Hence, the set of admissible flows,
+\[
+  \Delta(Q,\theta) =
+  \begin{cases}
+    \operatorname{ConvexHull}\{(c,0),(0,c)\} & \text{if } c > 0,\\
+    \{(0,0)\}                                & \text{if } c = 0,\\
+    \varnothing                              & \text{if } c < 0,
+  \end{cases}
+\]
+is a compact one-dimensional polytope when $c > 0$.  
 
-The two spanning trees $T_1 = (Q_0, \{\alpha_1\})$ and $T_2 = (Q_0, \{\alpha_2\})$ give unique flows $x_1 = (c, 0)$ and $x_2 = (0, c)$. Any flow in $I_Q^{-1}(\theta)$ satisfies $x(\alpha_1) + x(\alpha_2) = c$, so writing $u := x(\alpha_1)$:
+Next, we consider the non-pointed case $k = \mathbb{F}_2((t))$,
+$m_k = \mathcal{O}_v = \mathbb{F}_2[[t]]$. 
+Here, $m_k$ is a \emph{ring}, hence closed under subtraction. Thus
+$s \in \mathcal{O}_v$ and $c - s \in \mathcal{O}_v$ hold simultaneously iff
+$s \in \mathcal{O}_v$ and $c = s + (c - s) \in \mathcal{O}_v$. Therefore
 \[
-\Delta(Q, \theta) \;=\; \bigl\{\,(u,\; c - u) \;\big|\; u \in m_k,\; c - u \in m_k \,\bigr\}.
+  \Delta(Q,\theta) \;=\;
+  \begin{cases}
+    x^T_\theta + \mathcal{O}_v\, z_{\alpha_2} \;\cong\; \mathcal{O}_v & \text{if } v(c) \geq 0,\\
+    \varnothing & \text{if } v(c) < 0.
+  \end{cases}
 \]
-Now, let focus on the standard examples for the \emph{ordered case}, that is $k = \mathbb{R}$, $m_k = \mathbb{R}_{\geq 0}$: The conditions $u \geq 0$ and $c - u \geq 0$ force $0 \leq u \leq c$. Thus
-\[
-\Delta(Q, \theta) \;=\;
-\begin{cases}
-\operatorname{ConvexHull}\!\left\{(c,0),\,(0,c)\right\} & \text{if } c > 0, \\
-\varnothing & \text{if } c < 0.
-\end{cases}
-\]
-This is a compact line segment, a one-dimensional polytope.
+When non-empty this is a torsor for the free rank-$b_1(Q) = 1$ module
+$\mathcal{K}_Q = \mathcal{O}_v$. 
 
-Now, we discuss the standard example of the \emph{valued case},  $k = \mathbb{F}_2((t))$, $m_k = \mathbb{F}_2[[t]]$, $t$-adic valuation. Since $\mathcal{O}_v$ is a ring, $u \in \mathcal{O}_v$ and $c - u \in \mathcal{O}_v$ hold simultaneously if and only if $u \in \mathcal{O}_v$ and $c \in \mathcal{O}_v$. Hence
+Finally, we consider the mildly-pointed case with  $k = \mathbb{R}((t))$, and sub-semiring
+$m_k = \{x \in \mathbb{R}[[t]] : x(0) \geq 0\}$. In this case $z \in m_k$ if and only if $v(z) \geq 0$ and
+$z(0) \geq 0$, which implies
+$U = m_k \cap (-m_k) = t\,\mathbb{R}[[t]]$, and we have
+\begin{align*}
+\mathcal{K}_Q = \ker I_Q \cap m_k^{\,2}
+&=
+\{\, (-s, s)\; |\; (-s, s) \in m_k^{\, 2} \},
+\\
+&=\{\, s\,z_{\alpha_2} : s \in m_k,\ -s \in m_k \,\}\; \text{ where $z_{\alpha_2} = (-1,1)$}
+\\
+&= U\, z_{\alpha_2}
+\end{align*}
+To calculate the space of admissible flows, we 
+observe that a point $x^T_\theta + s\,z_{\alpha_2} = (c-s, s)$ is admissible iff $s \in m_k$ and $c - s \in m_k$.
+By the properties of the valuation
+$v(s) \geq 0$ and $v(c - s) \geq 0$, it holds that
+$v(c) = v(s + (c-s)) \geq 0$. So, 
+$\Delta(Q,\theta) = \varnothing$ if $v(c) < 0$.
+The residue conditions are then
+$\rho(s) \geq 0$ and $\rho(c - s) = \rho(c) - \rho(s) \geq 0$. Then, it holds that 
+$0 \leq \rho(s) \leq \rho(c)$, and we have the map
+\begin{align*}
+(c-s,s) \mapsto 
+( \rho(c-s), \, \rho(s) ) 
+\in 
+\text{ConvexHull} \{ \; (\rho(c),0), \; (0, \rho(c)) \;\}
+\subset
+\mathbb{R}^2
+\end{align*}
+The fibers are the elements in $U \subset m_k$, that is those that do not change the value of the residue. 
+Let $I_{c}$ be the segment $\text{ConvexHull} \{ \; (\rho(c),0), \; (0, \rho(c)) \;\}$, 
+Our description yields:
 \[
-\Delta(Q, \theta) \;\cong\;
-\begin{cases}
-\mathcal{O}_v & \text{if } v(c) \geq 0, \\
-\varnothing & \text{if } v(c) < 0.
-\end{cases}
+  \Delta(Q,\theta) \;\cong\;
+  \begin{cases}
+    I_c \;\times\; t\,\mathbb{R}[[t]]
+       & \text{if } v(c) \geq 0 \text{ and } \rho(c) \geq 0,\\[2pt]
+    \varnothing & \text{otherwise.}
+  \end{cases}
 \]
-This is infinite when nonempty: the module $\mathcal{K}_Q = \ker I_Q \cap \mathcal{O}_v^2 = \{(u,-u) : u \in \mathcal{O}_v\} \cong \mathcal{O}_v$ acts freely by translation.
-
-Finally, we focus on the standard example for the \emph{intermediate case} $k = \mathbb{R}((t))$,
-$m_k = \rho^{-1}(\mathbb{R}_{\geq 0}) = \{x \in \mathbb{R}[[t]] : x(0) \geq 0\}$,
-with $\rho : \mathbb{R}[[t]] \to \mathbb{R}$ the residue map $\rho(x) = x(0)$.
-Membership $u \in m_k$ now means $v(u) \geq 0$ \emph{and} $\rho(u) \geq 0$, and
-likewise for $c - u$. For both $u$ and $c - u$ to be integral we need
-$c = u + (c-u) \in \mathbb{R}[[t]]$, i.e.\ $v(c) \geq 0$; assuming this, write
-$\bar c := \rho(c) \in \mathbb{R}$. The residue conditions become
-$\rho(u) \geq 0$ and $\rho(c - u) = \bar c - \rho(u) \geq 0$, i.e.\
-$0 \leq \rho(u) \leq \bar c$, while the higher-order part
-$u - \rho(u) \in t\,\mathbb{R}[[t]]$ is unconstrained. Hence
-\[
-\Delta(Q, \theta) \;\cong\;
-\begin{cases}
-[\,0,\ \bar c\,] \;\times\; t\,\mathbb{R}[[t]]
-   & \text{if } v(c) \geq 0 \text{ and } \bar c = \rho(c) \geq 0, \\[2pt]
-\varnothing & \text{otherwise (i.e. } v(c) < 0 \text{ or } \rho(c) < 0).
-\end{cases}
-\]
+Note that $\mathcal{K}_Q \cong t\,\mathbb{R}[[t]]$ acts freely by translation:
+$(c-s, s) \mapsto (c-s, s) + tp(t)(-1, 1)$. This action leaves the value of the residue fixed because $tp(t)|_{t=0} =0$, so it's not transitive, and the orbits are the fibers of the residue map. 
 \end{example}
+
+
+
 
 
 \subsection{Description of the space of abstract flows}
